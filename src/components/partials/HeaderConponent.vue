@@ -5,16 +5,31 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header__logo">
-                        <a href="./index.html">
-                            <img src="img/logo.png" alt="">
-                        </a>
+                        <router-link :to="{ name: 'home'}">
+                            <img :src="`${baseUrl}/img/logo.png`" alt="">
+                        </router-link>
                     </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active" v-for="header in headers" :key="header.name"><router-link :to="header.link">{{ header.name }}</router-link></li>
+                                <li><a href="">Quoc gia <span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="./login.html" v-for="country in countries" :key="country.id">{{ country.name }}</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">Danh muc <span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="./login.html" v-for="category in categories" :key="category.id">{{ category.name }}</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">The loai <span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="./login.html" v-for="genre in genres" :key="genre.id">{{ genre.name }}</a></li>
+                                    </ul>
+                                </li>
+                                
                             </ul>
                         </nav>
                     </div>
@@ -33,30 +48,29 @@
 </template>
 
 <script>
+import axios from 'axios'
+
   export default {
     name: 'HeaderConponent',
 
     data(){
         return {
-            headers: [
-                {
-                    name: 'Home',
-                    link: '/',
-                },
-                {
-                    name: 'About',
-                    link: 'about',
-                },
-                {
-                    name: 'Category',
-                    link: 'category',
-                },
-                {
-                    name: 'Contact',
-                    link: 'contact',
-                }
-            ],
+            countries: [],
+            categories:[],
+            genres:[],
+            baseUrl: process.env.VUE_APP_BASE_URL,
         }
+    },
+    mounted(){
+       axios.get("http://localhost:8000/api/country/get-list").then(response => {
+          this.countries = response.data.data
+       }).catch(console.error());
+       axios.get("http://localhost:8000/api/category/get-list").then(response => {
+          this.categories = response.data.data
+       }).catch(console.error());
+       axios.get("http://localhost:8000/api/genre/get-list").then(response => {
+          this.genres = response.data.data
+       }).catch(console.error());
     }
   }
 </script>

@@ -64,21 +64,22 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in topComic" :key="item.id">
+              <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in comicNew" :key="item.id">
                 <div class="product__item">
-                  <div
-                    class="product__item__pic set-bg">
-                    <img :src="item.image" :alt="item.name">
-                    <div class="ep">{{ item.chapter }}</div>
-                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                  <div class="product__item__pic set-bg">
+                    <img :src="`http://localhost:8000/storage/`+item.thumbnail" :alt="item.name">
+                    <div class="ep">{{ item.chapters[0].name }}</div>
+                    <div class="comment"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ item.chapters[0].created_at }}</div>
+                    <div class="view"><i class="fa fa-eye"></i> {{ item.view }}</div>
                   </div>
                   <div class="product__item__text">
                     <ul>
-                      <li>Active</li>
-                      <li>Movie</li>
+                      <li v-for="genre in item.genres" :key="genre.id">{{ genre.name }}</li>
                     </ul>
-                    <h5><a href="#">{{ item.name }}</a></h5>
+                    <h5>
+                      <!-- <a :href="`${baseUrl}/chi-tiet-truyen/${item.slug}`">{{ item.name }}</a> -->
+                      <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }">{{ item.name }}</router-link>
+                    </h5>
                   </div>
                 </div>
               </div>
@@ -331,22 +332,30 @@
 </template>
 
 <script>
-import axios from 'axios';
-    
+import axios from 'axios';  
+import moment from 'moment';
 export default {
     data(){
         return {
-          publicPath: process.env.BASE_URL,
-          topComic: [],
+          comicNew: [],
+          baseUrl: process.env.VUE_APP_BASE_URL,
         }
     },
-    mounted () {
-      axios
-        .get('http://localhost:8000/api/get-list-top-comic')
-        .then((response) => {
-          this.topComic = response.data
-        })
-    }
+    async mounted () {
+      try {
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/comic/get-list-new`);
+        const comics = response.data.data;
+        comics.forEach((comic) => {
+          comic.chapters.forEach((chapter) => {
+            chapter.created_at = moment(chapter.created_at).locale('vi').fromNow(true);
+          });
+        });
+        this.comicNew = comics;
+      } catch (error) {
+        console.error(error);
+      }
+
+    },
 }
 </script>
 

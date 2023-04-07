@@ -13,6 +13,12 @@ const routes = [
     component: () => import('@/views/AboutView.vue')
   },
   {
+    path: '/chi-tiet-truyen/:slug',
+    name: 'detail-comic',
+    component: () => import('@/views/comics/DetailView.vue'),
+    props: true,
+  },
+  {
     path: '/category',
     name: 'category',
     component: () => import('@/views/AboutView.vue')
@@ -21,12 +27,6 @@ const routes = [
     path: '/contact',
     name: 'contact',
     component: () => import('@/views/AboutView.vue')
-  },
-  {
-    path: '/detail/:id',
-    name: 'detail',
-    component: () => import('@/views/DetailUserView.vue'),
-    props: true,
   },
 ];
 
