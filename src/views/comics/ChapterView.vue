@@ -6,11 +6,8 @@
         <div class="col-lg-12">
           <div class="breadcrumb__links">
             <router-link :to="{ name: 'home' }">Home</router-link>
-            <router-link
-              :to="{ name: 'detail-comic', params: { slug: slug_comic } }"
-              >{{ comic.name }}</router-link
-            >
-            <span>{{ chapter.name }}</span>
+            <router-link :to="{ name: 'detail-comic', params: { slug: slug_comic } }">{{ comic.name }}</router-link>
+            <span>{{ chapter_detail.name }}</span>
           </div>
         </div>
       </div>
@@ -23,30 +20,17 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="control-chapter">
-            <router-link
-              :to="{
-                name: 'chapter',
-                params: { slug: slug_comic, chapter: slug_chapter },
-              }"
-              >Pre</router-link
-            >
+            <router-link v-if="preChapter && preChapter.slug" :to="{ name: 'chapter', params: { slug: slug_comic, chapter: preChapter.slug },}">Pre</router-link>
             <select class="form-control" v-on:change="changeChapter($event)">
-              <option selected>Settings</option>
-              <option
-                v-for="item in comic.chapters"
-                :key="item.id"
-                :value="item.slug"
-              >
+              <option v-for="item in comic.chapters" :key="item.id" :value="item.slug"
+                :selected="item.slug === slug_chapter">
                 {{ item.name }}
               </option>
             </select>
-            <router-link
-              :to="{
-                name: 'chapter',
-                params: { slug: slug_comic, chapter: slug_chapter },
-              }"
-              >Next</router-link
-            >
+            <router-link v-if="nextChapter && nextChapter.slug" :to="{
+              name: 'chapter',
+              params: { slug: slug_comic, chapter: nextChapter.slug },
+            }">Next</router-link>
           </div>
         </div>
         <div class="col-lg-12">
@@ -56,6 +40,7 @@
             </div>
           </div>
         </div>
+        <!-- <router-link :to="{name: 'read-comic'}" class="change-chapter d-none" ref="mylink"></router-link> -->
       </div>
     </div>
   </section>
@@ -68,9 +53,11 @@ export default {
   name: "ChapterView",
   data() {
     return {
-      chapter: [],
+      chapter_detail: [],
       comic: [],
       images: [],
+      preChapter: [],
+      nextChapter: [],
       BASE_URL: process.env.VUE_APP_BASE_URL,
       API_URL: process.env.VUE_APP_API_URL,
       API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
@@ -80,25 +67,56 @@ export default {
   },
   async mounted() {
     try {
-      const response = await axios.get(
-        `${this.API_URL}/page/read-page/${this.slug_comic}/${this.slug_chapter}`
-      );
-      const chapter = response.data.data.chapter;
-      const comic = response.data.data.comic;
-      const images = response.data.data.chapter.content_image;
-      this.chapter = chapter;
-      this.comic = comic;
-      this.images = JSON.parse(images);
-    } catch (error) {
-      console.error(error);
-    }
+        const response = await axios.get(
+          `${this.API_URL}/page/read-page/${this.slug_comic}/${this.slug_chapter}`
+        );
+        const chapter = response.data.data.chapter;
+        const comic = response.data.data.comic;
+        const images = response.data.data.chapter.content_image;
+        const preChapters = response.data.data.preChapter;
+        const nextChapters = response.data.data.nextChapter;
+        
+
+        this.preChapter = preChapters;
+        this.nextChapter = nextChapters;
+        this.chapter_detail = chapter;
+        this.comic = comic;
+        this.images = JSON.parse(images);
+      } catch (error) {
+        console.error(error);
+      }
   },
   methods: {
     changeChapter(e) {
       const slug = e.target.value;
-      console.log(slug);
-      this.$router.push("/read-comic/"+this.slug_comic + "/" + slug);
+      this.$router.push("/read-comic/" + this.slug_comic + "/" + slug);
     },
+    async loadChapterData(newValue) {
+      try {
+        const response = await axios.get(
+          `${this.API_URL}/page/read-page/${this.slug_comic}/${newValue}`
+        );
+        const chapter = response.data.data.chapter;
+        const comic = response.data.data.comic;
+        const images = response.data.data.chapter.content_image;
+        const preChapters = response.data.data.preChapter;
+        const nextChapters = response.data.data.nextChapter;
+        
+
+        this.preChapter = preChapters;
+        this.nextChapter = nextChapters;
+        this.chapter_detail = chapter;
+        this.comic = comic;
+        this.images = JSON.parse(images);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
+  watch: {
+    '$route.params.chapter'(newValue) {
+      this.loadChapterData(newValue);
+    }
+  }
 };
 </script>
