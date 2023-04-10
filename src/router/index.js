@@ -8,25 +8,16 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('@/views/AboutView.vue')
-  },
-  {
-    path: '/chi-tiet-truyen/:slug',
+    path: '/detail/:slug',
     name: 'detail-comic',
     component: () => import('@/views/comics/DetailView.vue'),
     props: true,
   },
   {
-    path: '/category',
-    name: 'category',
-    component: () => import('@/views/AboutView.vue')
-  },
-  {
-    path: '/contact',
-    name: 'contact',
-    component: () => import('@/views/AboutView.vue')
+    path: '/read-comic/:slug/:chapter',
+    name: 'chapter',
+    component: () => import('@/views/comics/ChapterView.vue'),
+    props: true,
   },
 ];
 

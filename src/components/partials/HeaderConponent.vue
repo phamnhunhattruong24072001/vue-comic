@@ -6,7 +6,7 @@
                 <div class="col-lg-2">
                     <div class="header__logo">
                         <router-link :to="{ name: 'home'}">
-                            <img :src="`${baseUrl}/img/logo.png`" alt="">
+                            <img :src="`${BASE_URL}/img/logo.png`" alt="">
                         </router-link>
                     </div>
                 </div>
@@ -16,17 +16,17 @@
                             <ul>
                                 <li><a href="">Quoc gia <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="./login.html" v-for="country in countries" :key="country.id">{{ country.name }}</a></li>
+                                        <!-- <li><a href="./login.html" v-for="country in countries" :key="country.id">{{ country.name }}</a></li> -->
                                     </ul>
                                 </li>
                                 <li><a href="">Danh muc <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="./login.html" v-for="category in categories" :key="category.id">{{ category.name }}</a></li>
+                                        <!-- <li><a href="./login.html" v-for="category in categories" :key="category.id">{{ category.name }}</a></li> -->
                                     </ul>
                                 </li>
                                 <li><a href="">The loai <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="./login.html" v-for="genre in genres" :key="genre.id">{{ genre.name }}</a></li>
+                                        <!-- <li><a href="./login.html" v-for="genre in genres" :key="genre.id">{{ genre.name }}</a></li> -->
                                     </ul>
                                 </li>
                                 
@@ -48,29 +48,18 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
   export default {
     name: 'HeaderConponent',
 
     data(){
         return {
-            countries: [],
-            categories:[],
-            genres:[],
-            baseUrl: process.env.VUE_APP_BASE_URL,
+            BASE_URL: process.env.VUE_APP_BASE_URL,
         }
     },
     mounted(){
-       axios.get("http://localhost:8000/api/country/get-list").then(response => {
-          this.countries = response.data.data
-       }).catch(console.error());
-       axios.get("http://localhost:8000/api/category/get-list").then(response => {
-          this.categories = response.data.data
-       }).catch(console.error());
-       axios.get("http://localhost:8000/api/genre/get-list").then(response => {
-          this.genres = response.data.data
-       }).catch(console.error());
+      
     }
   }
 </script>

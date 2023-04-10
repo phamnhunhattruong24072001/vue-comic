@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="footer__logo">
-                    <a href="./index.html"><img :src="`${baseUrl}/img/logo.png`" alt=""></a>
+                    <a href="./index.html"><img :src="`${BASE_URL}/img/logo.png`" alt=""></a>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -35,7 +35,7 @@
        name: 'FooterConponent',
        data(){
         return {
-            baseUrl: process.env.VUE_APP_BASE_URL,
+            BASE_URL: process.env.VUE_APP_BASE_URL,
         }
     },
    }

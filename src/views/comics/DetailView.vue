@@ -1,214 +1,204 @@
 <template>
-         <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="./categories.html">Categories</a>
-                        <span>Romance</span>
-                    </div>
-                </div>
-            </div>
+  <!-- Breadcrumb Begin -->
+  <div class="breadcrumb-option">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb__links">
+            <router-link :to="{ name: 'home' }">Home</router-link>
+            <router-link :to="{ name: 'home' }">{{
+              category.name
+            }}</router-link>
+            <span>{{ comicDetail.name }}</span>
+          </div>
         </div>
+      </div>
     </div>
-    <!-- Breadcrumb End -->
+  </div>
+  <!-- Breadcrumb End -->
 
-    <!-- Anime Section Begin -->
-    <section class="anime-details spad">
-        <div class="container">
-            <div class="anime__details__content">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg">
-                            <img :src="`${apiImageUrl+'/'+comicDetail.thumbnail}`" alt="">
-                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9">
-                        <div class="anime__details__text">
-                            <div class="anime__details__title">
-                                <h3>{{ comicDetail.name }}</h3>
-                                <span>フェイト／ステイナイト, </span>
-                            </div>
-                            <div class="anime__details__rating">
-                                <div class="rating">
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star-half-o"></i></a>
-                                </div>
-                                <span>1.029 Votes</span>
-                            </div>
-                            <p></p>
-                            <div class="anime__details__widget">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <ul>
-                                            <li><span>Type:</span> TV Series</li>
-                                            <li><span>Studios:</span> Lerche</li>
-                                            <li><span>Date aired:</span> Oct 02, 2019 to ?</li>
-                                            <li><span>Status:</span> Airing</li>
-                                            <li><span>Genre:</span> Action, Adventure, Fantasy, Magic</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <ul>
-                                            <li><span>Scores:</span> 7.31 / 1,515</li>
-                                            <li><span>Rating:</span> 8.5 / 161 times</li>
-                                            <li><span>Duration:</span> 24 min/ep</li>
-                                            <li><span>Quality:</span> HD</li>
-                                            <li><span>Views:</span> 131,541</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="anime__details__btn">
-                                <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
-                                <a href="#" class="watch-btn"><span>Watch Now</span> <i
-                                    class="fa fa-angle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8 col-md-8">
-                        <div class="anime__details__review">
-                            <div class="section-title">
-                                <h5>Reviews</h5>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img :src="`${baseUrl}/img/anime/review-1.jpg`" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img :src="`${baseUrl}/img/anime/review-2.jpg`" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img :src="`${baseUrl}/img/anime/review-3.jpg`" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img :src="`${baseUrl}/img/anime/review-4.jpg`" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img :src="`${baseUrl}/img/anime/review-5.jpg`" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img :src="`${baseUrl}/img/anime/review-6.jpg`" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="anime__details__form">
-                            <div class="section-title">
-                                <h5>Your Comment</h5>
-                            </div>
-                            <form action="#">
-                                <textarea placeholder="Your Comment"></textarea>
-                                <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4">
-                        <div class="anime__details__sidebar">
-                            <div class="section-title">
-                                <h5>you might like...</h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" :data-setbg="`${baseUrl}/img/sidebar/tv-1.jpg`">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Boruto: Naruto next generations</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" :data-setbg="`${baseUrl}/img/sidebar/tv-2.jpg`">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" :data-setbg="`${baseUrl}/img/sidebar/tv-3.jpg`">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Sword art online alicization war of underworld</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" :data-setbg="`${baseUrl}/img/sidebar/tv-4.jpg`">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Fate/stay night: Heaven's Feel I. presage flower</a></h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!-- Anime Section Begin -->
+  <section class="anime-details spad">
+    <div class="container">
+      <div class="anime__details__content">
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="anime__details__pic set-bg">
+              <img :src="API_URL_IMAGE + '/' + comicDetail.thumbnail" alt="" />
+              <div class="country" :title="country.name">
+                <img
+                  :src="API_URL_IMAGE + '/' + country.avatar"
+                  :alt="country.name"
+                />
+              </div>
+              <div class="comment"><i class="fa fa-comments"></i> 11</div>
+              <div class="view">
+                <i class="fa fa-eye"></i> {{ comicDetail.view }}
+              </div>
             </div>
-        </section>
-        <!-- Anime Section End -->
+          </div>
+          <div class="col-lg-9">
+            <div class="anime__details__text">
+              <div class="anime__details__title">
+                <h3>{{ comicDetail.name }}</h3>
+                <span>{{ comicDetail.name_another }} </span>
+              </div>
+              <div class="anime__details__rating">
+                <div class="rating">
+                  <a href="#"><i class="fa fa-star"></i></a>
+                  <a href="#"><i class="fa fa-star"></i></a>
+                  <a href="#"><i class="fa fa-star"></i></a>
+                  <a href="#"><i class="fa fa-star"></i></a>
+                  <a href="#"><i class="fa fa-star-half-o"></i></a>
+                </div>
+                <span>1.029 Votes</span>
+              </div>
+              <p></p>
+              <div class="anime__details__widget">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    <ul>
+                      <li><span>Country:</span> {{ country.name }}</li>
+                      <li><span>Category:</span> {{ category.name }}</li>
+                      <li><span>Date aired:</span> Oct 02, 2019 to ?</li>
+                      <li><span>Status:</span> Airing</li>
+                      <li><span>Genre:</span> {{ genre_string }}</li>
+                    </ul>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <ul>
+                      <li><span>Chapter:</span> {{ chapters.length }}</li>
+                      <li><span>Rating:</span> 8.5 / 161 times</li>
+                      <li><span>Duration:</span> 24 min/ep</li>
+                      <li><span>Quality:</span> HD</li>
+                      <li><span>Views:</span> {{ comicDetail.view }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="anime__details__btn">
+                <a href="#" class="follow-btn"
+                  ><i class="fa fa-heart-o"></i> Follow</a
+                >
+                <a href="#" class="watch-btn"
+                  ><span>Beginning</span> <i class="fa fa-angle-right"></i
+                ></a>
+                <a href="#" class="watch-btn ml-2"
+                  ><span>Latest</span> <i class="fa fa-angle-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 col-md-8">
+          <div class="anime__details__episodes">
+            <div class="section-title">
+              <h5>Chapters</h5>
+            </div>
+            <router-link
+              v-for="chapter in chapters"
+              :key="chapter.id"
+              :to="{
+                name: 'chapter',
+                params: { slug: comicDetail.slug, chapter: chapter.slug },
+              }"
+              >{{ chapter.name }}</router-link
+            >
+          </div>
+          <div class="anime__details__review">
+            <div class="section-title">
+              <h5>Reviews</h5>
+            </div>
+            <div class="anime__review__item">
+              <div class="anime__review__item__pic">
+                <img :src="`${BASE_URL}/img/anime/review-1.jpg`" alt="" />
+              </div>
+              <div class="anime__review__item__text">
+                <h6>Chris Curry - <span>1 Hour ago</span></h6>
+                <p>
+                  whachikan Just noticed that someone categorized this as
+                  belonging to the genre "demons" LOL
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="anime__details__form">
+            <div class="section-title">
+              <h5>Your Comment</h5>
+            </div>
+            <form action="#">
+              <textarea placeholder="Your Comment"></textarea>
+              <button type="submit">
+                <i class="fa fa-location-arrow"></i> Review
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="anime__details__sidebar">
+            <div class="section-title">
+              <h5>you might like...</h5>
+            </div>
+            <div
+              class="product__sidebar__view__item set-bg"
+              :data-setbg="`${BASE_URL}/img/sidebar/tv-1.jpg`"
+            >
+              <div class="ep">18 / ?</div>
+              <div class="view"><i class="fa fa-eye"></i> 9141</div>
+              <h5><a href="#">Boruto: Naruto next generations</a></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Anime Section End -->
 </template>
 
 <script>
-   import axios from 'axios';  
-    import moment from 'moment';
-    export default {
-        data(){
-            return {
-                comicDetail: [],
-                baseUrl: process.env.VUE_APP_BASE_URL,
-                apiUrl: process.env.VUE_APP_API_URL,
-                apiImageUrl: process.env.VUE_APP_API_URL_IMAGE,
-                slug: this.$route.params.slug,
-            }
-        },
-        async mounted () {
-        try {
-            const response = await axios.get(`${process.env.VUE_APP_API_URL}/comic/detail/${this.slug}`);
-            const comic = response.data.data;
-            // comics.forEach((comic) => {
-            // comic.chapters.forEach((chapter) => {
-            //     chapter.created_at = moment(chapter.created_at).locale('vi').fromNow(true);
-            // });
-            // });
-            this.comicDetail = comic;
-            moment();
-        } catch (error) {
-            console.error(error);
-        }
-
-        },
+import axios from "axios";
+// import moment from "moment";
+export default {
+  data() {
+    return {
+      comicDetail: [],
+      category: [],
+      country: [],
+      genres: [],
+      genre_string: "",
+      genreArr: [],
+      chapters: [],
+      BASE_URL: process.env.VUE_APP_BASE_URL,
+      API_URL: process.env.VUE_APP_API_URL,
+      API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
+      slug: this.$route.params.slug,
+    };
+  },
+  async mounted() {
+    try {
+      const response = await axios.get(
+        `${this.API_URL}/page/detail-page/${this.slug}`
+      );
+      const comic = response.data.data.comic;
+      const category = response.data.data.comic.category;
+      const country = response.data.data.comic.country;
+      const chapters = response.data.data.comic.chapters;
+      const genres = response.data.data.comic.genres;
+      this.category = category;
+      this.country = country;
+      this.chapters = chapters;
+      this.genres = genres;
+      genres.forEach((genre, index) => {
+        this.genreArr[index] = genre.name;
+      });
+      this.genre_string = this.genreArr.join(", ");
+      this.comicDetail = comic;
+      //   moment();
+    } catch (error) {
+      console.error(error);
     }
+  },
+};
 </script>
