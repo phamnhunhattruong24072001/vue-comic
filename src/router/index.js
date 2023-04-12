@@ -19,6 +19,12 @@ const routes = [
     component: () => import('@/views/comics/ChapterView.vue'),
     props: true,
   },
+  {
+    path: '/genre-comic/:slug?',
+    name: 'genre',
+    component: () => import('@/views/comics/GenreView.vue'),
+    props: true,
+  },
 ];
 
 const router = createRouter({

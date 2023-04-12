@@ -24,9 +24,9 @@
                                         <!-- <li><a href="./login.html" v-for="category in categories" :key="category.id">{{ category.name }}</a></li> -->
                                     </ul>
                                 </li>
-                                <li><a href="">The loai <span class="arrow_carrot-down"></span></a>
+                                <li><router-link :to="{ name: 'genre', params: {slug: ''}}">The loai <span class="arrow_carrot-down"></span></router-link>
                                     <ul class="dropdown">
-                                        <!-- <li><a href="./login.html" v-for="genre in genres" :key="genre.id">{{ genre.name }}</a></li> -->
+                                        <li><router-link v-for="genre in genres" :key="genre.id" :to="{ name: 'genre', params: { slug: genre.slug }}">{{ genre.name }}</router-link></li>
                                     </ul>
                                 </li>
                                 
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 
   export default {
     name: 'HeaderConponent',
@@ -56,10 +56,21 @@
     data(){
         return {
             BASE_URL: process.env.VUE_APP_BASE_URL,
+            API_URL: process.env.VUE_APP_API_URL,
+            API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
+            genres: [],
         }
     },
-    mounted(){
-      
+    async mounted() {
+    try {
+      const response = await axios.get(
+        `${this.API_URL}/component/header`
+      );
+      this.genres = response.data.data.genres;
+
+    } catch (error) {
+      console.error(error);
     }
+  },
   }
 </script>

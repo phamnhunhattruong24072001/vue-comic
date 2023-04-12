@@ -109,7 +109,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-8 col-md-8">
+        <div class="col-lg-12 col-md-12">
           <div class="anime__details__episodes">
             <div class="section-title">
               <h5>Chapters</h5>
@@ -124,28 +124,40 @@
               >{{ chapter.name }}
             </router-link>
           </div>
-          <div class="anime__details__episodes">
+          <div class="anime__details__figures">
             <div class="section-title">
               <h5>Figures</h5>
             </div>
             <div class="row">
-              <div class="col-lg-3">
+              <div class="col-lg-4" v-for="item in figures" :key="item.id">
                 <div class="content">
                   <div class="card">
-                    <div class="firstinfo"><img src="https://randomuser.me/api/portraits/lego/6.jpg">
+                    <div class="firstinfo"><img :src="API_URL_IMAGE+'/'+item.avatar">
                       <div class="profileinfo">
-                        <h1>Francesco Moustache</h1>
-                        <h3>Python Ninja</h3>
-                        <p class="bio">Lived all my life on the top of mount Fuji, learning the way to be a Ninja Dev.</p>
+                        <h1>{{ item.name }}</h1>
+                        <h3>{{ item.character_role }}</h3>
+                        <!-- <p class="bio">{{ item.short_desc }}</p> -->
+                        <div class="profilefolow">
+                          <span>
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                          </span>
+                          <span>
+                            <i class="fa fa-heart" aria-hidden="true"></i>
+                          </span>
+                          <span>
+                            <a href=""><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="badgescard"> <span class="devicons devicons-django"></span><span class="devicons devicons-python"> </span><span class="devicons devicons-codepen"></span><span class="devicons devicons-javascript_badge"></span><span class="devicons devicons-gulp"></span><span class="devicons devicons-angular"></span><span class="devicons devicons-sass"> </span></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="anime__details__review">
+        </div>
+        <div class="col-lg-8 mt-4">
+           <div class="anime__details__review">
             <div class="section-title">
               <h5>Reviews</h5>
             </div>
@@ -212,6 +224,7 @@ export default {
       chapters: [],
       newChapter: [],
       latestChapter: [],
+      figures: [],
       BASE_URL: process.env.VUE_APP_BASE_URL,
       API_URL: process.env.VUE_APP_API_URL,
       API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
@@ -229,11 +242,24 @@ export default {
       const country = response.data.data.comic.country;
       const chapters = response.data.data.comic.chapters;
       const genres = response.data.data.comic.genres;
+      const figures = response.data.data.comic.figures;
+
       this.comicDetail = comic;
       this.category = category;
       this.country = country;
       this.chapters = chapters;
       this.genres = genres;
+
+      figures.forEach((figure) => {
+         if(figure.character_role === 0) {
+           figure.character_role = 'Nhan vat chinh';
+         }else if(figure.character_role === 1){
+          figure.character_role = 'Nhan vat phu'
+         }else{
+          figure.character_role = 'phan dien'
+         }
+      });
+      this.figures = figures;
 
       const minKey = Math.min(...chapters.keys());
       const maxKey = Math.max(...chapters.keys());
