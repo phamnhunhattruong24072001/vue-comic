@@ -73,8 +73,8 @@
       <div class="row c-image">
         <div class="col-lg-12">
           <div class="content-image">
-            <div class="item-image" v-for="image in images" :key="image">
-              <img v-lazy="API_URL_IMAGE + '/' + image" alt="" />
+            <div class="item-image" v-for="(image, index) in images" :key="image">
+              <img v-lazy="API_URL_IMAGE + '/' + image" alt="" :key="image + index"/>
             </div>
           </div>
         </div>

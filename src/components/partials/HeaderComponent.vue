@@ -37,7 +37,7 @@
                 <div class="col-lg-2">
                     <div class="header__right">
                         <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="./login.html"><span class="icon_profile"></span></a>
+                        <router-link :to="{ name: 'login'}"><span class="icon_profile"></span></router-link>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
 import axios from 'axios'
 
   export default {
-    name: 'HeaderConponent',
+    name: 'HeaderComponent',
 
     data(){
         return {

@@ -32,7 +32,7 @@
 
 <script>
    export default {
-       name: 'FooterConponent',
+       name: 'FooterComponent',
        data(){
         return {
             BASE_URL: process.env.VUE_APP_BASE_URL,

@@ -202,22 +202,32 @@
 
   /* css checkbox */
   .content-genre{
-    padding: 20px 0;
+    padding: 20px 0 20px 10px;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
   }
 
-  article {
+  .content-genre .item-checkbox-genre{
+    display: flex;
+  }
+
+  .content-genre article {
     position: relative;
     width: 100%;
-    height: 50px;
+    height: 40px;
     margin: 5px;
     float: left;
     border: 2px solid #50bcf2;
     box-sizing: border-box;
     color: #fff;
     font-size: 14px;
+    font-size: 12px;
   }
   
-  article div {
+  .content-genre article div {
     width: 100%;
     height: 100%;
     display: flex;
@@ -225,9 +235,10 @@
     align-items: center;
     line-height: 25px;
     transition: .5s ease;
+    padding: 0 10px;
   }
   
-  article input {
+  .content-genre article input {
     position: absolute;
     top: 0;
     left: 0;
@@ -237,11 +248,11 @@
     cursor: pointer;
   }
   
-  input[type=checkbox]:checked ~ div {
+  .content-genre input[type=checkbox]:checked ~ div {
     background-color: #50bcf2;
   }
   
-  .upgrade-btn {
+  .content-genre .upgrade-btn {
     display: block;
     margin: 30px auto;
     width: 200px;
@@ -255,19 +266,19 @@
     transition: .3s ease;
   }
   
-  .upgrade-btn:hover {
+  .content-genre .upgrade-btn:hover {
     background-color: #50bcf2;
   }
   
-  .blue-color {
+  .content-genre .blue-color {
     color: #50bcf2;
   }
   
-  .gray-color {
+  .content-genre .gray-color {
     color: #fff;
   }
   
-  .social i:before {
+  .content-genre .social i:before {
     width: 14px;
     height: 14px;
     position: fixed;

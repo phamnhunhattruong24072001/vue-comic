@@ -28,21 +28,11 @@
                     <h4>Genre</h4>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="product__page__filter">
-                    <p>Order by:</p>
-                    <select>
-                      <option value="">A-Z</option>
-                      <option value="">1-10</option>
-                      <option value="">10-50</option>
-                    </select>
-                  </div>
-                </div>
               </div>
               <div class="row content-genre">
-                <div class="col-sm-2" v-for="genre in genres" :key="genre.id">
+                <div class="item-checkbox-genre" v-for="genre in genres" :key="genre.id">
                   <article class="feature1">
-                    <input type="checkbox" name="checkGenre[]" :checked="genre.slug === slug_param" :value="genre.slug" ref="genreInputs"/>
+                    <input type="checkbox" name="checkGenre[]" :checked="genre.slug == slug_param" :value="genre.slug" ref="genreInputs" @click="filterGenre()"/>
                     <div>
                       <span>
                           {{ genre.name }}
@@ -50,9 +40,6 @@
                     </div>
                   </article>
                   <!-- end of quiz_card_area -->
-                </div>
-                <div class="col-lg-12 text-center p-2">
-                      <button class="btn btn-primary" @click="filterGenre()">Filter</button>
                 </div>
               </div>
             </div>
@@ -106,59 +93,17 @@
               </div>
             </div>
           </div>
-          <div class="product__pagination">
-            <a href="#" class="current-page">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#"><i class="fa fa-angle-double-right"></i></a>
-          </div>
+          <paginate
+            :page-count="totalPage"
+            :click-handler="clickCallback"
+            :prev-text="'Prev'"
+            :next-text="'Next'"
+            :container-class="'product__pagination'"
+          >
+          </paginate>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-8">
-          <div class="product__sidebar">
-            <div class="product__sidebar__view">
-              <div class="section-title">
-                <h5>Top Views</h5>
-              </div>
-              <ul class="filter__controls">
-                <li class="active" data-filter="*">Day</li>
-                <li data-filter=".week">Week</li>
-                <li data-filter=".month">Month</li>
-                <li data-filter=".years">Years</li>
-              </ul>
-              <div class="filter__gallery">
-                <div
-                  class="product__sidebar__view__item set-bg mix day years"
-                  data-setbg="img/sidebar/tv-1.jpg"
-                >
-                  <div class="ep">18 / ?</div>
-                  <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                  <h5><a href="#">Boruto: Naruto next generations</a></h5>
-                </div>
-              </div>
-            </div>
-            <!-- <div class="product__sidebar__comment">
-              <div class="section-title">
-                <h5>New Comment</h5>
-              </div>
-              <div class="product__sidebar__comment__item">
-                <div class="product__sidebar__comment__item__pic">
-                  <img src="img/sidebar/comment-1.jpg" alt="" />
-                </div>
-                <div class="product__sidebar__comment__item__text">
-                  <ul>
-                    <li>Active</li>
-                    <li>Movie</li>
-                  </ul>
-                  <h5>
-                    <a href="#">The Seven Deadly Sins: Wrath of the Gods</a>
-                  </h5>
-                  <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
-                </div>
-              </div>
-            </div> -->
-          </div>
+              <right-content-component></right-content-component>
         </div>
       </div>
     </div>
@@ -169,8 +114,10 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import RightContentComponent from '@/components/RightContentComponent.vue';
 
 export default {
+  components: { RightContentComponent },
   props: {
     slug: String,
   },
@@ -182,6 +129,7 @@ export default {
       slug_param: this.$route.params.slug,
       comics: [],
       genres: [],
+      totalPage: 0,
     };
   },
   async mounted() {
@@ -203,16 +151,19 @@ export default {
             .fromNow(true);
         });
 
+        this.totalPage = response.data.data.comics.last_page;
+        this.slug_param = slug;
         this.genres = response.data.data.genres;
         this.comics = comics;
       } catch (error) {
         console.error(error);
       }
     },
-    async filterGenre(){
+    async filterGenre(pageNum = 1){
       const checkedGenres = this.$refs.genreInputs.filter(input => input.checked).map(input => input.value);
       const response = await axios.post(`${this.API_URL}/page/filter-genre-comic`, {
           slugs: checkedGenres,
+          pageNum: pageNum
       });
       const comics = response.data.data.comics.data;
 
@@ -223,8 +174,11 @@ export default {
             .locale("vi")
             .fromNow(true);
         });
-        this.genres = response.data.data.genres;
         this.comics = comics;
+        this.totalPage = response.data.data.comics.last_page;
+    },
+    clickCallback(pageNum){
+       this.filterGenre(pageNum)
     }
   },
   watch: {

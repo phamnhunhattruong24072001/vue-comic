@@ -855,6 +855,7 @@ ol {
 .product__sidebar__comment__item {
   margin-bottom: 20px;
   overflow: hidden;
+  display: block;
 }
 
 .product__sidebar__comment__item__pic {
@@ -954,8 +955,7 @@ ol {
 .product__pagination {
   padding-top: 15px;
 }
-
-.product__pagination a {
+.product__pagination li {
   display: inline-block;
   font-size: 15px;
   color: #b7b7b7;
@@ -970,8 +970,11 @@ ol {
   -o-transition: all, 0.3s;
   transition: all, 0.3s;
 }
+.product__pagination li a {
+   cursor: pointer;
+}
 
-.product__pagination a:hover {
+.product__pagination li a:hover {
   color: #ffffff;
 }
 
