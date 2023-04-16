@@ -8,11 +8,11 @@
                         <h3>Login</h3>
                         <form @submit.prevent="handleSubmit()">
                             <div class="input__item">
-                                <input type="text" placeholder="Username" v-model="username">
-                                <span class="icon_mail"></span>
+                                <input type="text" placeholder="Username" v-model="form.username">
+                                <span class="icon_user"></span>
                             </div>
                             <div class="input__item">
-                                <input type="password" placeholder="Password" v-model="password">
+                                <input type="password" placeholder="Password" v-model="form.password">
                                 <span class="icon_lock"></span>
                             </div>
                             <button type="submit" class="site-btn">Login Now</button>
@@ -23,7 +23,7 @@
                 <div class="col-lg-6">
                     <div class="login__register">
                         <h3>Dont’t Have An Account?</h3>
-                        <router-link :to="{name: 'register'}" class="primary-btn">Register Now</router-link>
+                        <router-link :to="{ name: 'register' }" class="primary-btn">Register Now</router-link>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                             <span>or</span>
                             <ul>
                                 <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With
-                                Facebook</a></li>
+                                        Facebook</a></li>
                                 <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
                                 <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a>
                                 </li>
@@ -51,31 +51,43 @@
 <script>
 import axios from "axios";
 export default {
-  name: "RegisterView",
-  data() {
-    return {
-      BASE_URL: process.env.VUE_APP_BASE_URL,
-      API_URL: process.env.VUE_APP_API_URL,
-      API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
-      username: "",
-      password: "",
-    };
-  },
-  methods: {
-    async handleSubmit() {
-      const response = await axios.post(`${this.API_URL}/auth/login`, {
-        username: this.username,
-        password: this.password,
-      });
-      console.log(response);
-    //   if (response.data.data.success == 200) {
-    //     this.$router.push({name: 'home'});
-    //   }
+    name: "RegisterView",
+    data() {
+        return {
+            BASE_URL: process.env.VUE_APP_BASE_URL,
+            API_URL: process.env.VUE_APP_API_URL,
+            API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
+            form: {
+                username: "",
+                password: "",
+            }
+        };
     },
-  },
-  watch: {
-    "$route.params"() {
+    methods: {
+        handleSubmit: function() {
+            axios.post(`${this.API_URL}/auth/login`, this.form)
+            .then((response) => {
+                if (response.status == 200) {
+                    // Lưu thông tin user và access token vào local storage
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
+                    localStorage.setItem('access_token', response.data.access_token);
+                    localStorage.setItem('token_type', response.data.token_type);
+
+                    // Điều hướng về trang chủ
+                    this.$router.push({name: 'home'});
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+        },
+
     },
-  },
+    created() {
+        // Kiểm tra xem user đã đăng nhập hay chưa  
+        if (localStorage.getItem('user') && localStorage.getItem('access_token')) {
+            this.$router.push({name: 'home'});
+        }
+    },
 };
 </script>

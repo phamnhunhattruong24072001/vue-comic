@@ -1,5 +1,5 @@
 <template>
-  <HeaderComponent />
+    <HeaderComponent />
     <router-view/>
-  <FooterComponent />
+    <FooterComponent />
 </template>
