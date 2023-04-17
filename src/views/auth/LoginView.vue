@@ -60,7 +60,8 @@ export default {
             form: {
                 username: "",
                 password: "",
-            }
+            },
+            is_login: false
         };
     },
     methods: {
@@ -74,6 +75,7 @@ export default {
                     localStorage.setItem('token_type', response.data.token_type);
 
                     // Điều hướng về trang chủ
+                    this.is_login = true;
                     this.$router.push({name: 'home'});
                 }
             })

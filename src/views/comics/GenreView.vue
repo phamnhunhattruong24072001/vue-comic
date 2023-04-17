@@ -5,9 +5,9 @@
           <div class="row">
               <div class="col-lg-12">
                   <div class="breadcrumb__links">
-                      <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                      <a href="./categories.html">Categories</a>
-                      <span>Genre</span>
+                      <router-link :to="{name: 'genre', params: { slug: slug_param}}"><i class="fa fa-home"></i> Trang chủ</router-link>
+                      <router-link :to="{name: 'genre', params: { slug: ''}}">Thể loại</router-link>
+                      <span>{{ genre ? genre.name : 'Tất cả' }}</span>
                   </div>
               </div>
           </div>
@@ -24,15 +24,29 @@
                           <div class="row">
                               <div class="col-lg-8 col-md-8 col-sm-6">
                                   <div class="section-title">
-                                      <h4>Genre</h4>
+                                      <h4>THỂ LOẠI 
+                                        <span v-if="genre">- {{ genre.name }}</span>
+                                        <span v-if="!genre">- TẤT CẢ</span>
+                                    </h4>
                                   </div>
                               </div>
+                              <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <div class="product__page__filter">
+                                        <p>Order by:</p>
+                                        <select v-model="filter.soft" @change="handleFilterData()">
+                                            <option value="DESC">Mới nhất</option>
+                                            <option value="ASC">Cũ nhất</option>
+                                            <option value="VIEW">Top lượt xem</option>
+                                            <!-- <option value="FAVORITES">Top yêu thích</option> -->
+                                        </select>
+                                    </div>
+                              </div>
                           </div>
-                          <div class="row content-genre">
+                          <div class="row content-genre" v-if="is_genre_slug">
                               <div class="item-checkbox-genre" v-for="genre in filter.genres" :key="genre.id">
                                   <article class="feature1">
                                       <input type="checkbox" name="checkGenre[]" :checked="genre.slug == slug_param" :value="genre.slug"
-                                          ref="genreInputs" @click="filterGenre()" />
+                                          ref="genreInputs" @click="handleFilterData()" />
                                       <div>
                                           <span>
                                           {{ genre.name }}
@@ -42,32 +56,26 @@
                                   <!-- end of quiz_card_area -->
                               </div>
                           </div>
-                          <div class="row content-genre">
-                              <div class="item-checkbox-genre" v-for="country in filter.countries" :key="country.id">
-                                  <article class="feature1">
-                                      <input type="checkbox" name="checkCountry[]" :value="country.id"
-                                          ref="countryInputs" @click="filterGenre()" />
-                                      <div>
-                                          <span>
-                                          {{ country.name }}
-                                          </span>
-                                      </div>
-                                  </article>
-                                  <!-- end of quiz_card_area -->
-                              </div>
-                          </div>
-                          <div class="row content-genre">
-                              <div class="item-checkbox-genre" v-for="category in filter.categories" :key="category.id">
-                                  <article class="feature1">
-                                      <input type="checkbox" name="checkcategory[]" :value="category.id"
-                                          ref="categoryInputs" @click="filterGenre()" />
-                                      <div>
-                                          <span>
-                                          {{ category.name }}
-                                          </span>
-                                      </div>
-                                  </article>
-                                  <!-- end of quiz_card_area -->
+                          <div class="row">
+                             <div class="col-lg-12">
+                                    <div class="content-soft">
+                                        <div class="inputGroup">
+                                            <input name="radio" type="radio"/>
+                                            <label for="radio1">Top all</label>
+                                        </div>
+                                        <div class="inputGroup">
+                                            <input name="radio" type="radio"/>
+                                            <label for="radio2">Top tháng</label>
+                                        </div>
+                                        <div class="inputGroup">
+                                            <input name="radio" type="radio"/>
+                                            <label for="radio2">Top tuần</label>
+                                        </div>
+                                        <div class="inputGroup">
+                                            <input name="radio" type="radio"/>
+                                            <label for="radio2">Top ngày</label>
+                                        </div>
+                                    </div>
                               </div>
                           </div>
                       </div>
@@ -91,9 +99,7 @@
                                   </router-link>
                                   <div class="product__item__text">
                                       <h5>
-                                          <router-link :to="{ name: 'detail-comic', params: { slug: item.slug }, }">{{ item.name
-                                              }}
-                                          </router-link>
+                                          <router-link :to="{ name: 'detail-comic', params: { slug: item.slug }, }">{{ item.name}}</router-link>
                                       </h5>
                                       <ul>
                                           <li v-for="genre in item.genres" :key="genre.id">
@@ -105,7 +111,7 @@
                           </div>
                       </div>
                   </div>
-                  <paginate :page-count="lastPage" :click-handler="filterGenre" :prev-text="'Prev'" :next-text="'Next'"
+                  <paginate :page-count="lastPage" :click-handler="handleFilterData" :prev-text="'Prev'" :next-text="'Next'"
                       :container-class="'product__pagination'">
                   </paginate>
               </div>
@@ -139,14 +145,15 @@ export default {
             comics: {},
             filter: {
                 genres: {},
-                categories: {},
-                countries: {},
+                soft: 'DESC',
             },
             lastPage: 0,
+            is_genre_slug: true,
+            genre: {},
         };
     },
     methods: {
-        loadComicData: function(slug) 
+        loadData: function(slug) 
         {
             axios.get(`${this.API_URL}/page/genre-comic/${slug}`)
             .then((response) => {
@@ -161,29 +168,23 @@ export default {
 
                 this.lastPage = response.data.data.comics.last_page;
                 this.slug_param = slug;
+                if (this.slug_param) {
+                    this.is_genre_slug = false;
+                }else {
+                    this.is_genre_slug = true;
+                }
                 this.filter = {
                     genres: response.data.data.genres,
-                    countries: response.data.data.countries,
-                    categories: response.data.data.categories,
                 }
                 this.comics = comics;
+                this.genre = response.data.data.genre;
             })
             .catch((error) => {
                 console.log(error);
             });
         },
-        filterGenre: function(pageNum = 1)
+        filterData: function(data)
         { 
-           
-            const checkedGenres = this.$refs.genreInputs.filter(input => input.checked).map(input => input.value);
-            const checkedCountries = this.$refs.countryInputs.filter(input => input.checked).map(input => input.value);
-            const checkedCategories = this.$refs.categoryInputs.filter(input => input.checked).map(input => input.value);
-            const data = {
-                pageNum: pageNum,
-                slugArr: checkedGenres,
-                categories: checkedCategories,
-                countries: checkedCountries,
-            };
             axios.post(`${this.API_URL}/page/filter-genre-comic`, data)
             .then((response) => {
                 const comics = response.data.data.comics.data;
@@ -201,16 +202,34 @@ export default {
                 console.log(error);
             });
         },
+        handleFilterData: function(pageNum = 1){
+            const checkedGenres = this.$refs.genreInputs.filter(input => input.checked).map(input => input.value);
+            let softField = 'latest_chapter_time';
+            let softType = this.filter.soft ?? 'DESC';
+            if (this.filter.soft == 'VIEW') {
+                softField = 'view';
+                softType = 'DESC';
+            }
+            const data = {
+                pageNum: pageNum,
+                slugArr: checkedGenres,
+                categories: [],
+                countries: [],
+                softField: softField,
+                softType: softType
+            };
+            this.filterData(data)
+        },
     },
     created(){
-        this.loadComicData(this.slug_param);
+        this.loadData(this.slug_param);
     },
     mounted() {
         
     },
     watch: {
         "$route.params.slug"(newValue) {
-            this.loadComicData(newValue);
+            this.loadData(newValue);
         },
     },
 };
