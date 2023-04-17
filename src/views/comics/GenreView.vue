@@ -60,20 +60,20 @@
                              <div class="col-lg-12">
                                     <div class="content-soft">
                                         <div class="inputGroup">
-                                            <input name="radio" type="radio"/>
+                                            <input id="radio1" name="radio" type="radio"/>
                                             <label for="radio1">Top all</label>
                                         </div>
                                         <div class="inputGroup">
-                                            <input name="radio" type="radio"/>
+                                            <input id="radio2" name="radio" type="radio"/>
                                             <label for="radio2">Top tháng</label>
                                         </div>
                                         <div class="inputGroup">
-                                            <input name="radio" type="radio"/>
-                                            <label for="radio2">Top tuần</label>
+                                            <input id="radio3" name="radio" type="radio"/>
+                                            <label for="radio3">Top tuần</label>
                                         </div>
                                         <div class="inputGroup">
-                                            <input name="radio" type="radio"/>
-                                            <label for="radio2">Top ngày</label>
+                                            <input id="radio4" name="radio" type="radio"/>
+                                            <label for="radio4">Top ngày</label>
                                         </div>
                                     </div>
                               </div>
