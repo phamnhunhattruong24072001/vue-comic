@@ -30,21 +30,6 @@
 
 <script>
 import axios from 'axios';
-import Echo from 'laravel-echo';
-window.Pusher = require('pusher-js');
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    authEndpoint: `http://localhost:8000/broadcasting/auth`,
-    key: 'a085fab3ad6d32b3513b',
-    cluster: 'ap1',
-    forceTLS: true,
-    auth: {
-        headers: {
-            Authorization: 'Bearer ' + 'fdc281f7ce1e6d10749736b8bdc0dff0daf4369ed16e626f140f36ddaf6709ac'
-        },
-    },
-});
-
 
 export default {
     name: 'CommentComponent',
@@ -77,26 +62,19 @@ export default {
             }
             axios.post(`${this.API_URL}/comment`, data)
             .then((response) => {
-                window.Echo
-                .join('chat')
-                .whisper('CommentEvent', response.data.data.comment);
+                const allMessages = this.comments.concat(response.data.data.comment);
+                this.comments = allMessages;
+                this.message = '';
             }).catch((error) => {
                 console.log(error);
             })
         },
-        chat: function() {
-            window.Echo.private('chat')
-            .listen('CommentEvent', (e) => {
-                console.log(e)
-            });
-        },
     },
     created() {
-        this.getData()
-        this.chat();
+        this.getData();
     },
     mounted() {
-       
+        
     }
 }
 </script>
