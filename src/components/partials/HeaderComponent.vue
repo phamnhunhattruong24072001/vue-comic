@@ -14,6 +14,9 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
+                                <li>
+                                    <router-link :to="{ name: 'home' }">Trang chủ</router-link>
+                                </li>
                                 <li><a href="">Quoc gia <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
                                         <!-- <li><a href="./login.html" v-for="country in countries" :key="country.id">{{ country.name }}</a></li> -->
@@ -32,7 +35,9 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                <li>
+                                    <router-link :to="{ name: 'home' }">Tìm truyện</router-link>
+                                </li>
                             </ul>
                         </nav>
                     </div>

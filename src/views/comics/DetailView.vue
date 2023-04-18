@@ -133,34 +133,7 @@
                   </div>
               </div>
               <div class="col-lg-8 mt-4">
-                  <div class="anime__details__review">
-                      <div class="section-title">
-                          <h5>Reviews</h5>
-                      </div>
-                      <div class="anime__review__item">
-                          <div class="anime__review__item__pic">
-                              <img :src="`${BASE_URL}/img/anime/review-1.jpg`" alt="" />
-                          </div>
-                          <div class="anime__review__item__text">
-                              <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                              <p>
-                                  whachikan Just noticed that someone categorized this as
-                                  belonging to the genre "demons" LOL
-                              </p>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="anime__details__form">
-                      <div class="section-title">
-                          <h5>Your Comment</h5>
-                      </div>
-                      <form action="#">
-                          <textarea placeholder="Your Comment"></textarea>
-                          <button type="submit">
-                          <i class="fa fa-location-arrow"></i> Review
-                          </button>
-                      </form>
-                  </div>
+                  <comment-component></comment-component>
               </div>
               <div class="col-lg-4 col-md-4">
                   <div class="anime__details__sidebar">
@@ -182,8 +155,11 @@
 
 <script>
 import axios from "axios";
+import CommentComponent from '@/components/CommentComponent.vue';
+
 
 export default {
+  components: { CommentComponent },
     name: "DetailView",
     props: {
         slug: String,
@@ -246,10 +222,13 @@ export default {
             }).catch((error) => {
                 console.log(error)
             });
-        }
+        },
     },
     created(){
         this.getData();
+    },
+    mounted() {
+        
     }
 };
 </script>

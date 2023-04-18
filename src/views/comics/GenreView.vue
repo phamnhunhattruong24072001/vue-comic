@@ -34,7 +34,7 @@
                                     <div class="product__page__filter">
                                         <p>Order by:</p>
                                         <select v-model="filter.soft" @change="handleFilterData()">
-                                            <option value="DESC">Mới nhất</option>
+                                            <option value="DESC">Mới cập nhật</option>
                                             <option value="ASC">Cũ nhất</option>
                                             <option value="VIEW">Top lượt xem</option>
                                             <!-- <option value="FAVORITES">Top yêu thích</option> -->
@@ -49,7 +49,7 @@
                                           ref="genreInputs" @click="handleFilterData()" />
                                       <div>
                                           <span>
-                                          {{ genre.name }}
+                                            {{ genre.name }}
                                           </span>
                                       </div>
                                   </article>
@@ -203,7 +203,10 @@ export default {
             });
         },
         handleFilterData: function(pageNum = 1){
-            const checkedGenres = this.$refs.genreInputs.filter(input => input.checked).map(input => input.value);
+            let checkedGenres = [];
+            if(!this.slug_param) {
+                checkedGenres = this.$refs.genreInputs.filter(input => input.checked).map(input => input.value)
+            }
             let softField = 'latest_chapter_time';
             let softType = this.filter.soft ?? 'DESC';
             if (this.filter.soft == 'VIEW') {
