@@ -70,9 +70,10 @@ export default {
             .then((response) => {
                 if (response.status == 200) {
                     // Lưu thông tin user và access token vào local storage
-                    localStorage.setItem('user', JSON.stringify(response.data.user));
-                    localStorage.setItem('access_token', response.data.access_token);
-                    localStorage.setItem('token_type', response.data.token_type);
+                    localStorage.setItem('user', JSON.stringify(response.data.data.user));
+                    localStorage.setItem('access_token', response.data.data.access_token);
+                    localStorage.setItem('token_type', response.data.data.token_type);
+                    console.log(response.data.data.access_token);
 
                     // Điều hướng về trang chủ
                     this.is_login = true;

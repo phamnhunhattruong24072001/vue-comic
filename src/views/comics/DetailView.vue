@@ -103,7 +103,7 @@
                       <div class="section-title">
                           <h5>Figures</h5>
                       </div>
-                      <div class="row">
+                      <div class="row" v-if="figures.length > 0">
                           <div class="col-lg-4" v-for="item in figures" :key="item.id">
                               <div class="content">
                                   <div class="card">
@@ -130,15 +130,20 @@
                               </div>
                           </div>
                       </div>
+                      <div class="row" v-else>
+                            <div class="ml-3 alert alert-primary" role="alert">
+                               Đang cập nhật ....
+                            </div>
+                      </div>
                   </div>
               </div>
               <div class="col-lg-8 mt-4">
-                  <comment-component></comment-component>
+                  <comment-component v-if="comic_id" :comic_id="comic_id"></comment-component>
               </div>
               <div class="col-lg-4 col-md-4">
                   <div class="anime__details__sidebar">
                       <div class="section-title">
-                          <h5>you might like...</h5>
+                          <h5>Có thể bạn thích</h5>
                       </div>
                       <div class="product__sidebar__view__item set-bg">
                           <div class="ep">18 / ?</div>
@@ -180,6 +185,7 @@ export default {
             newChapter: {},
             latestChapter: {},
             figures: {},
+            comic_id: '',
         };
     },
     methods:{
@@ -198,6 +204,7 @@ export default {
                 this.country = country;
                 this.chapters = chapters;
                 this.genres = genres;
+                this.comic_id = comic.id;
 
                 figures.forEach((figure) => {
                     if (figure.character_role === 0) {
