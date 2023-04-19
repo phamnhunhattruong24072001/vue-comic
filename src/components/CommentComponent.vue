@@ -25,12 +25,15 @@
                     <img :src="item.avatar" alt="" />
                 </div>
                 <div class="anime__review__item__text" >
-                    <h6 :class="item.client.id == clientLogin.id ? 'text-danger' : ''">{{ item.client.name }} - <span>{{ item.created_at }}</span></h6>
+                    <h6 :class="clientLogin && item.client.id == clientLogin.id ? 'text-danger' : ''">{{ item.client.name }} - <span>{{ item.created_at }}</span></h6>
                     <p>
                         {{ item.message }}
                     </p>
                 </div>
             </div>
+            <paginate :page-count="1" :click-handler="handlePaginate" :prev-text="'Prev'" :next-text="'Next'"
+                      :container-class="'product__pagination'">
+            </paginate>
         </div>
         <div v-else>
             <div class="alert alert-primary" role="alert">
@@ -60,7 +63,7 @@ export default {
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
             comments: {},
             message: '',
-            clientLogin: JSON.parse(localStorage.getItem('user')),
+            clientLogin: {},
         }
     },
     methods: {
@@ -68,6 +71,7 @@ export default {
             axios.get(`${this.API_URL}/comment/get-list/${this.comic_id}`)
                 .then(response => {
                     const comments = response.data.data.comments.data
+
                     comments.forEach((comment) => {
                         comment.created_at = moment(comment.created_at).locale("vi").fromNow(true);
                         comment.avatar = this.formatImage(comment.avatar)
@@ -106,18 +110,24 @@ export default {
                 image = this.API_URL_IMAGE+image
             }
             return image;
+        },
+        handlePaginate: function(pageNum) {
+            console.log(pageNum);
         }
     },
     created() {
         this.getData();
     },
     mounted() {
+        if(localStorage.getItem('user')){
+            this.clientLogin = JSON.parse(localStorage.getItem('user'))
+        }
         Pusher.logToConsole = true;
 
-        var pusher = new Pusher('7b9820360c55a6a7b6f5', {
+        let pusher = new Pusher(process.env.VUE_APP_MIX_PUSHER_APP_KEY, {
             cluster: 'ap1'
         });
-        var channel = pusher.subscribe('chat');
+        let channel = pusher.subscribe('chat');
         channel.bind('message', (data) => {
             this.handleComment(data.comment)
         });

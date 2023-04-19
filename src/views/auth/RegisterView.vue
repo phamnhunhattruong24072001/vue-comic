@@ -74,7 +74,7 @@ export default {
         handleSubmit: function() {
             axios.post(`${this.API_URL}/auth/register`, this.form).then((response) => {
                 if(response.status == 200) {
-                    this.$router.push("/login");
+                    this.$router.push({ name: 'login' });
                 }
             }).catch((error) => {
                 console.log(error);
