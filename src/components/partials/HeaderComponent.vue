@@ -1,39 +1,94 @@
 <template>
     <!-- Header Section Begin -->
-    <header class="header">
+    <header class="header-top">
         <div class="container">
             <div class="row">
-                <div class="col-lg-2">
+                <div class="col-lg-3">
                     <div class="header__logo">
                         <router-link :to="{ name: 'home' }">
                             <img :src="`${BASE_URL}/img/logo.png`" alt="">
                         </router-link>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
+                    <div class="search-box">
+                        <div class="search-box__content">
+                            <input type="text" class="form-control form-search" v-model="search.text" @keyup="handleSearch" placeholder="Tìm kiếm tại đây">
+                            <span class="icon-search"><i class="fa fa-search"></i></span>
+                            <div class="search-box__result" v-show="search.result">
+                                <ul>
+                                    <li v-for="item in search.result" :key="item.id">
+                                        <router-link :to="{name: 'detail-comic', params: { slug: item.slug} }" @click="search.text = ''; search.result = {}">
+                                            <div class="img">
+                                                <img :src="API_URL_IMAGE+'/'+item.thumbnail" alt="">
+                                            </div>
+                                            <div class="content-text">
+                                                <b>{{ item.name }}</b>
+                                                <span>{{ item.chapter_latest.name }}</span>
+                                                <div class="product__item__text">
+                                                    <ul>
+                                                        <li v-for="genre in item.genres" :key="genre.id">
+                                                            {{ genre.name }}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </router-link>
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-3">
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Navbar -->
+    <div class="header">
+        <nav style="background-color: aliceblue;">
+            <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
                                 <li>
                                     <router-link :to="{ name: 'home' }">Trang chủ</router-link>
                                 </li>
-                                <li><a href="">Quoc gia <span class="arrow_carrot-down"></span></a>
+                                <li>
+                                    <router-link :to="{ name: 'home' }">Hot</router-link>
+                                </li>
+                                <li>
+                                    <router-link :to="{ name: 'home' }">Theo giỏi</router-link>
+                                </li>
+                                <li>
+                                    <router-link :to="{ name: 'home' }">Lịch sử</router-link>
+                                </li>
+                                <li><a href="">Quốc gia <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <!-- <li><a href="./login.html" v-for="country in countries" :key="country.id">{{ country.name }}</a></li> -->
                                     </ul>
                                 </li>
-                                <li><a href="">Danh muc <span class="arrow_carrot-down"></span></a>
+                                <li><a href="">Danh mục <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <!-- <li><a href="./login.html" v-for="category in categories" :key="category.id">{{ category.name }}</a></li> -->
+                                        
                                     </ul>
                                 </li>
-                                <li><router-link :to="{ name: 'genre', params: { slug: '' } }">The loai 
+                                <li><router-link :to="{ name: 'genre', params: { slug: '' } }">Thể loại 
                                     <span class="arrow_carrot-down"></span></router-link>
                                     <ul class="dropdown">
-                                        <li>
-                                            <router-link v-for="genre in genres" :key="genre.id" :to="{ name: 'genre', params: { slug: genre.slug } }">{{ genre.name}}</router-link>
+                                        <li v-for="genre in genres" :key="genre.id">
+                                            <router-link :to="{ name: 'genre', params: { slug: genre.slug } }">{{ genre.name}}</router-link>
                                         </li>
                                     </ul>
+                                </li>
+                                <li>
+                                    <router-link :to="{ name: 'home' }">Yêu thích</router-link>
                                 </li>
                                 <li>
                                     <router-link :to="{ name: 'home' }">Tìm truyện</router-link>
@@ -42,26 +97,35 @@
                         </nav>
                     </div>
                 </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <router-link v-if="!is_login" :to="{ name: 'login' }"><span class="icon_profile"></span></router-link>
-                        <router-link v-if="is_login" :to="{ name: 'profile' }"><span class="icon_profile"></span></router-link>
-                    </div>
-                </div>
             </div>
             <div id="mobile-menu-wrap"></div>
         </div>
-    </header>
-    <!-- Header End -->
+        </nav>
+        
+    </div>
+    <!-- Navbar End -->
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+
+function debounce(func, wait, immediate) {
+    let timeout;
+    return function() {
+        const context = this, args = arguments;
+        const later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+        };
+        const callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
 
 export default {
     name: 'HeaderComponent',
-
     data() {
         return {
             BASE_URL: process.env.VUE_APP_BASE_URL,
@@ -70,6 +134,11 @@ export default {
             genres: [],
             user: [],
             is_login: false,
+            search: {
+                result: {},
+                text: '',
+            },
+            
         }
     },
     mounted() {
@@ -85,5 +154,24 @@ export default {
             this.is_login = true;
         }
     },
+    methods: {
+        handleSearch: debounce(function()
+        {
+            let data = {
+                'search': this.search.text,
+            };
+            if(this.search.text.trim().length === 0) {
+                this.search.result = {};
+            }else{
+                axios.post(`${this.API_URL}/component/search`, data)
+                .then((response) => {
+                    this.search.result = response.data.data.comics
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            }
+        }, 500),
+    }
 }
 </script>

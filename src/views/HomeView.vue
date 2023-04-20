@@ -104,8 +104,10 @@
 
 <script>
 import axios from "axios";
-import moment from "moment";
+// import moment from "moment";
 import RightContentComponent from '@/components/RightContentComponent.vue';
+import { formatDate } from '@/helpers/index';
+
 export default {
     components: {
         RightContentComponent
@@ -125,18 +127,10 @@ export default {
             const comicNews = response.data.data.comic_new;
             const comicComingSoons = response.data.data.comic_coming_soon;
             comicNews.forEach((comic) => {
-                comic.chapter_latest.created_at = moment(
-                        comic.chapter_latest.created_at
-                    )
-                    .locale("vi")
-                    .fromNow(true);
+                comic.chapter_latest.created_at = formatDate(comic.chapter_latest.created_at);
             });
             comicComingSoons.forEach((comic) => {
-                comic.chapter_latest.created_at = moment(
-                        comic.chapter_latest.created_at
-                    )
-                    .locale("vi")
-                    .fromNow(true);
+                comic.chapter_latest.created_at = formatDate(comic.chapter_latest.created_at);
             });
             this.comicNews = comicNews;
             this.comicComingSoons = comicComingSoons;

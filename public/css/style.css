@@ -332,6 +332,7 @@ ol {
 
 .header__logo {
   padding: 20px 0 17px;
+  display: inline-block;
 }
 
 .header__logo a {
@@ -339,14 +340,18 @@ ol {
 }
 
 .header__menu {
-  text-align: center;
+  display: block;
+  position: relative;
 }
 
-.header__menu ul li {
+.header__menu > ul > li {
   list-style: none;
   display: inline-block;
-  position: relative;
-  margin-right: 16px;
+  border-right: 1px solid #0b0c2a;
+}
+
+.header__menu > ul > li:first-child {
+  border-left: 1px solid #0b0c2a;
 }
 
 .header__menu ul li.active a {
@@ -355,11 +360,11 @@ ol {
 }
 
 .header__menu ul li:hover a {
-  color: #ffffff;
+  color: #e53637;
 }
 
 .header__menu ul li:hover .dropdown {
-  top: 62px;
+  top: 42px;
   opacity: 1;
   visibility: visible;
 }
@@ -375,8 +380,9 @@ ol {
 .header__menu ul li .dropdown {
   position: absolute;
   left: 0;
-  top: 82px;
-  width: 150px;
+  top: 62px;
+  width: 100%;
+  min-height: 200px;
   background: #ffffff;
   text-align: left;
   padding: 5px 0;
@@ -389,26 +395,31 @@ ol {
 }
 
 .header__menu ul li .dropdown li {
-  display: block;
+  display: inline-block;
   margin-right: 0;
+  padding: 10px 20px;
 }
 
 .header__menu ul li .dropdown li a {
   font-size: 14px;
   color: #111111;
   font-weight: 500;
-  padding: 5px 20px;
+  
 }
 
-.header__menu ul li a {
+.header__menu ul li .dropdown li a:hover {
+  color: #ca2027;
+}
+
+.header__menu > ul > li > a {
   font-size: 15px;
-  color: #b7b7b7;
+  color: #000;
   display: block;
   font-weight: 700;
   -webkit-transition: all, 0.5s;
   -o-transition: all, 0.5s;
   transition: all, 0.5s;
-  padding: 20px;
+  padding: 10px 20px;
 }
 
 .header__menu ul li a span {
@@ -974,7 +985,11 @@ ol {
    cursor: pointer;
 }
 
-.product__pagination li a:hover {
+.product__pagination li.active {
+  border: 1px solid #fff;
+}
+
+.product__pagination li:hover {
   color: #ffffff;
 }
 

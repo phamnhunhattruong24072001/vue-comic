@@ -189,8 +189,9 @@ export default {
         };
     },
     methods:{
-        getData: function(){
-            axios.get(`${this.API_URL}/page/detail-page/${this.slug_comic}`)
+        getData: function(slug)
+        {
+            axios.get(`${this.API_URL}/page/detail-page/${slug}`)
             .then((response) => {
                 const comic = response.data.data.comic;
                 const category = response.data.data.comic.category;
@@ -226,16 +227,19 @@ export default {
                     this.genreArr[index] = genre.name;
                 });
                 this.genre_string = this.genreArr.join(", ");
-            }).catch((error) => {
+            })
+            .catch((error) => {
                 console.log(error)
             });
         },
     },
     created(){
-        this.getData();
+        this.getData(this.slug_comic);
     },
-    mounted() {
-        
-    }
+    watch: {
+        "$route.params.slug"(newValue) {
+            this.getData(newValue);
+        },
+    },
 };
 </script>

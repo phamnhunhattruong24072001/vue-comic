@@ -31,9 +31,11 @@
                     </p>
                 </div>
             </div>
-            <paginate :page-count="1" :click-handler="handlePaginate" :prev-text="'Prev'" :next-text="'Next'"
+            <div class="pagination">
+                <paginate :page-count="lastPage" :click-handler="handlePaginate" :prev-text="'<<'" :next-text="'>>'"
                       :container-class="'product__pagination'">
-            </paginate>
+                </paginate>
+            </div>
         </div>
         <div v-else>
             <div class="alert alert-primary" role="alert">
@@ -64,25 +66,33 @@ export default {
             comments: {},
             message: '',
             clientLogin: {},
+            lastPage: '',
+            thisPage: 1,
         }
     },
     methods: {
-        getData: function() {
-            axios.get(`${this.API_URL}/comment/get-list/${this.comic_id}`)
+        getData: function(page = 1) 
+        {
+            axios.get(`${this.API_URL}/comment/get-list/${this.comic_id}?page=${page}`)
                 .then(response => {
                     const comments = response.data.data.comments.data
+                    
+                    this.thisPage = page;
+                    this.lastPage = response.data.data.comments.last_page;
 
                     comments.forEach((comment) => {
                         comment.created_at = moment(comment.created_at).locale("vi").fromNow(true);
                         comment.avatar = this.formatImage(comment.avatar)
                     });
+
                     this.comments = comments;
                 })
                 .catch(error => {
                     console.log(error)
                 })
         },
-        handleChat: function() {
+        handleChat: function() 
+        {
             let data = {
                 client_id: this.clientLogin.id,
                 comic_id: this.comic_id,
@@ -97,13 +107,18 @@ export default {
                     console.log(error);
                 })
         },
-        handleComment: function(comment = {}) {
-            comment.created_at = moment(comment.created_at).locale("vi").fromNow(true);
-            comment.avatar = this.formatImage(comment.avatar)
-            const newComment = [].concat(comment, this.comments);
-            this.comments = newComment;
+        handleComment: function(comment = {}) 
+        {
+            if (this.thisPage == 1) {
+                comment.created_at = moment(comment.created_at).locale("vi").fromNow(true);
+                comment.avatar = this.formatImage(comment.avatar)
+                const newComment = [].concat(comment, this.comments);
+                this.comments = newComment;
+            }
+            
         },
-        formatImage: function(image){
+        formatImage: function(image)
+        {
             if(!image) {
                 image = 'https://cdn.landesa.org/wp-content/uploads/default-user-image.png';
             }else{
@@ -111,8 +126,9 @@ export default {
             }
             return image;
         },
-        handlePaginate: function(pageNum) {
-            console.log(pageNum);
+        handlePaginate: function(pageNum) 
+        {
+            this.getData(pageNum)
         }
     },
     created() {
