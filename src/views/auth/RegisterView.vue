@@ -54,7 +54,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from 'vuex';
+
 export default {
     name: "RegisterView",
     data() {
@@ -71,14 +72,9 @@ export default {
         };
     },
     methods: {
+        ...mapActions('auth', ['login']),
         handleSubmit: function() {
-            axios.post(`${this.API_URL}/auth/register`, this.form).then((response) => {
-                if(response.status == 200) {
-                    this.$router.push({ name: 'login' });
-                }
-            }).catch((error) => {
-                console.log(error);
-            });
+            this.register(this.form)
         },
     },
 };

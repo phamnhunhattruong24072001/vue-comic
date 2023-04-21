@@ -8,7 +8,7 @@
                       <router-link :to="{ name: 'home' }">Home</router-link>
                       <router-link :to="{ name: 'home' }">{{ category.name }}
                       </router-link>
-                      <span>{{ comicDetail.name }}</span>
+                      <span>{{ comic.name }}</span>
                   </div>
               </div>
           </div>
@@ -22,22 +22,22 @@
               <div class="row">
                   <div class="col-lg-3">
                       <div class="anime__details__pic set-bg">
-                          <img v-if="comicDetail && comicDetail.thumbnail" :src="API_URL_IMAGE + '/' + comicDetail.thumbnail"
+                          <img v-if="comic" :src="API_URL_IMAGE + '/' + comic.thumbnail"
                               alt="" />
-                          <div class="country" :title="comicDetail.name">
+                          <div class="country" :title="comic.name">
                               <img v-if="country && country.avatar" :src="API_URL_IMAGE + '/' + country.avatar" :alt="country.name" />
                           </div>
                           <div class="comment"><i class="fa fa-comments"></i> 11</div>
                           <div class="view">
-                              <i class="fa fa-eye"></i> {{ comicDetail.view }}
+                              <i class="fa fa-eye"></i> {{ comic.view }}
                           </div>
                       </div>
                   </div>
                   <div class="col-lg-9">
                       <div class="anime__details__text">
                           <div class="anime__details__title">
-                              <h3>{{ comicDetail.name }}</h3>
-                              <span>{{ comicDetail.name_another }} </span>
+                              <h3>{{ comic.name }}</h3>
+                              <span>{{ comic.name_another }} </span>
                           </div>
                           <div class="anime__details__rating">
                               <div class="rating">
@@ -58,7 +58,7 @@
                                           <li><span>Category:</span> {{ category.name }}</li>
                                           <li><span>Date aired:</span> Oct 02, 2019 to ?</li>
                                           <li><span>Status:</span> Airing</li>
-                                          <li><span>Genre:</span> {{ genre_string }}</li>
+                                          <li><span>Genre:</span></li>
                                       </ul>
                                   </div>
                                   <div class="col-lg-6 col-md-6">
@@ -67,7 +67,7 @@
                                           <li><span>Rating:</span> 8.5 / 161 times</li>
                                           <li><span>Duration:</span> 24 min/ep</li>
                                           <li><span>Quality:</span> HD</li>
-                                          <li><span>Views:</span> {{ comicDetail.view }}</li>
+                                          <li><span>Views:</span> {{ comic.view }}</li>
                                       </ul>
                                   </div>
                               </div>
@@ -75,11 +75,11 @@
                           <div class="anime__details__btn">
                               <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
                               <router-link v-if="newChapter && newChapter.slug"
-                                  :to="{ name: 'chapter', params: { slug: slug_comic, chapter: newChapter.slug }, }" class="watch-btn">
+                                  :to="{ name: 'chapter', params: { slug: comic.slug, chapter: newChapter.slug }, }" class="watch-btn">
                                   <span>New Chapter</span> <i class="fa fa-angle-right"></i>
                               </router-link>
                               <router-link v-if="latestChapter && latestChapter.slug"
-                                  :to="{ name: 'chapter', params: { slug: slug_comic, chapter: latestChapter.slug }, }"
+                                  :to="{ name: 'chapter', params: { slug: comic.slug, chapter: latestChapter.slug }, }"
                                   class="watch-btn ml-2">
                                   <span>Latest Chapter</span> <i class="fa fa-angle-right"></i>
                               </router-link>
@@ -95,7 +95,7 @@
                           <h5>Chapters</h5>
                       </div>
                       <router-link v-for="chapter in chapters" :key="chapter.id"
-                          :to="{ name: 'chapter', params: { slug: comicDetail.slug, chapter: chapter.slug }, }">
+                          :to="{ name: 'chapter', params: { slug: comic.slug, chapter: chapter.slug }, }">
                           {{ chapter.name }}
                       </router-link>
                   </div>
@@ -138,7 +138,7 @@
                   </div>
               </div>
               <div class="col-lg-8 mt-4">
-                  <comment-component v-if="comic_id" :comic_id="comic_id"></comment-component>
+                  <comment-component :comic_id="comic.id"></comment-component>
               </div>
               <div class="col-lg-4 col-md-4">
                   <div class="anime__details__sidebar">
@@ -159,9 +159,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import CommentComponent from '@/components/CommentComponent.vue';
-
+import { mapActions , mapGetters } from 'vuex';
+// import detail from '@/store/detail';
 
 export default {
   components: { CommentComponent },
@@ -175,71 +175,40 @@ export default {
             API_URL: process.env.VUE_APP_API_URL,
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
             slug_comic: this.$route.params.slug,
-            comicDetail: {},
-            category: {},
-            country: {},
-            genres: {},
-            genre_string: "",
-            genreArr: [],
-            chapters: {},
-            newChapter: {},
-            latestChapter: {},
-            figures: {},
-            comic_id: '',
         };
     },
+    computed: {
+        ...mapGetters('detail', 
+        [
+            'comic', 
+            'figures',
+            'chapters',
+            'newChapter', 
+            'latestChapter',
+            'genres',
+            'country',
+            'category',
+        ])
+    },
     methods:{
-        getData: function(slug)
+        ...mapActions('detail', ['getData']),
+        getDataView: function(slug)
         {
-            axios.get(`${this.API_URL}/page/detail-page/${slug}`)
-            .then((response) => {
-                const comic = response.data.data.comic;
-                const category = response.data.data.comic.category;
-                const country = response.data.data.comic.country;
-                const chapters = response.data.data.comic.chapters;
-                const genres = response.data.data.comic.genres;
-                const figures = response.data.data.comic.figures;
-
-                this.comicDetail = comic;
-                this.category = category;
-                this.country = country;
-                this.chapters = chapters;
-                this.genres = genres;
-                this.comic_id = comic.id;
-
-                figures.forEach((figure) => {
-                    if (figure.character_role === 0) {
-                        figure.character_role = 'Nhan vat chinh';
-                    } else if (figure.character_role === 1) {
-                        figure.character_role = 'Nhan vat phu'
-                    } else {
-                        figure.character_role = 'phan dien'
-                    }
-                });
-                this.figures = figures;
-
-                const minKey = Math.min(...chapters.keys());
-                const maxKey = Math.max(...chapters.keys());
-
-                this.newChapter = chapters[minKey];
-                this.latestChapter = chapters[maxKey];
-                genres.forEach((genre, index) => {
-                    this.genreArr[index] = genre.name;
-                });
-                this.genre_string = this.genreArr.join(", ");
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+            this.getData(slug)
         },
     },
-    created(){
-        this.getData(this.slug_comic);
+    mounted(){
+        this.getDataView(this.slug_comic);
     },
     watch: {
         "$route.params.slug"(newValue) {
-            this.getData(newValue);
+            this.getDataView(newValue);
         },
     },
+    // beforeRouteLeave(to, from, next) {
+    //     detail.dispatch('detail/CLEAR_DATA');
+    //     next();
+    // },
+
 };
 </script>

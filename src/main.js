@@ -11,6 +11,17 @@ import FooterComponent from "@/components/partials/FooterComponent.vue";
 import CommentComponent from "@/components/CommentComponent.vue";
 import RightContentComponent from "@/components/RightContentComponent.vue";
 
+// MODULE
+import { createStore } from 'vuex';
+
+const store = createStore({
+    modules: {
+        auth: require('@/store/auth').default,
+        home: require('@/store/home').default,
+        detail: require('@/store/detail').default,
+    }
+})
+
 
 const app = createApp(App);
 
@@ -21,6 +32,8 @@ app.use(VueLazyload, {
     attempt: 1, // the number of attempts to load the image before giving up
 });
 app.use(router);
+
+app.use(store);
 
 app
     .component("HeaderComponent", HeaderComponent)

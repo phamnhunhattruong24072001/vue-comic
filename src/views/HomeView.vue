@@ -18,7 +18,7 @@
                           </div>
                       </div>
                       <div class="row">
-                          <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in comicNews" :key="item.id">
+                          <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in comicNew" :key="item.id">
                               <div class="product__item">
                                   <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }" class="product__item__pic set-bg">
                                       <img :src="`${API_URL_IMAGE + '/' + item.thumbnail}`" :alt="item.name" />
@@ -62,7 +62,7 @@
                           </div>
                       </div>
                       <div class="row">
-                          <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in comicComingSoons" :key="item.id">
+                          <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in comicComingSoon" :key="item.id">
                               <div class="product__item">
                                   <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }" class="product__item__pic set-bg">
                                       <img :src="`${API_URL_IMAGE + '/' + item.thumbnail}`" :alt="item.name" />
@@ -103,10 +103,9 @@
 </template>
 
 <script>
-import axios from "axios";
-// import moment from "moment";
+// import axios from "axios";
 import RightContentComponent from '@/components/RightContentComponent.vue';
-import { formatDate } from '@/helpers/index';
+import { mapActions , mapGetters } from 'vuex';
 
 export default {
     components: {
@@ -117,27 +116,20 @@ export default {
             BASE_URL: process.env.VUE_APP_BASE_URL,
             API_URL: process.env.VUE_APP_API_URL,
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
-            comicNews: {},
-            comicComingSoons: {},
         };
     },
-    mounted() {
-        axios.get(`${this.API_URL}/page/home-page`)
-        .then((response) => {
-            const comicNews = response.data.data.comic_new;
-            const comicComingSoons = response.data.data.comic_coming_soon;
-            comicNews.forEach((comic) => {
-                comic.chapter_latest.created_at = formatDate(comic.chapter_latest.created_at);
-            });
-            comicComingSoons.forEach((comic) => {
-                comic.chapter_latest.created_at = formatDate(comic.chapter_latest.created_at);
-            });
-            this.comicNews = comicNews;
-            this.comicComingSoons = comicComingSoons;
-        }).catch((error) => {
-            console.log(error);
-        })
+    computed: {
+        ...mapGetters('home', ['comicNew', 'comicComingSoon'])
     },
+    methods: {
+        ...mapActions('home', ['getData']),
+        getDataView: function() {
+            this.getData()
+        }
+    },
+    created() {
+        this.getDataView();
+    }
 };
 </script>
 

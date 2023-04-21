@@ -49,7 +49,8 @@
 </template>
 
 <script>
-import api from '@/api/auth'
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
     name: "RegisterView",
     data() {
@@ -61,35 +62,16 @@ export default {
                 username: "",
                 password: "",
             },
-            is_login: false
         };
     },
-    methods: {
-        handleSubmit: function() {
-            api.login(this.form)
-            .then((response) => {
-                if (response.status == 200) {
-                    // Lưu thông tin user và access token vào local storage
-                    localStorage.setItem('user', JSON.stringify(response.data.data.user));
-                    localStorage.setItem('access_token', response.data.data.access_token);
-                    localStorage.setItem('token_type', response.data.data.token_type);
-
-                    // Điều hướng về trang chủ
-                    this.is_login = true;
-                    this.$router.push({name: 'home'});
-                }
-            })
-            .catch((error) => {
-                console.log(error)
-            });
-        },
-
+    computed: {
+        ...mapGetters('auth', ['isLoggingIn', 'user'])
     },
-    created() {
-        // Kiểm tra xem user đã đăng nhập hay chưa  
-        if (localStorage.getItem('user') && localStorage.getItem('access_token')) {
-            this.$router.push({name: 'home'});
-        }
+    methods: {
+        ...mapActions('auth', ['login']),
+        handleSubmit: function() {
+            this.login(this.form)
+        },
     },
 };
 </script>
