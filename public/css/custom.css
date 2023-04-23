@@ -492,3 +492,54 @@
 .search-box__result > ul > li > a .content-text span{
   color: #3c454c;
 }
+
+/* css loading detail*/
+
+.loading-item{
+  background: #EEEEEE;
+  opacity: 0.2;
+  border-radius: 5px;
+  animation: color 2s ease-in-out infinite;
+}
+
+@keyframes color {
+  0% {
+    background-color: #FFF;
+  }
+  25% {
+    background-color: #DDDDDD;
+  }
+  50% {
+    background-color: #CCCCCC;
+  }
+  75% {
+    background-color: #BBBBBB;
+  }
+  100% {
+    background-color: #AAAAAA;
+  }
+}
+
+
+
+.loading-anime__details__sidebar{
+  height: 400px;
+}
+
+.loading-anime__details__episodes,
+.loading-anime__details__figures{
+  height: 200px;
+  margin-bottom: 40px;
+}
+
+.loading-anime__details__pic,
+.loading-anime__details__text{
+  height: 400px;
+}
+
+.loading-comment{
+  height: 400px;
+}
+.loading-breadcrumb-option{
+  height: 40px;
+}

@@ -5,23 +5,12 @@ import App from "./App.vue";
 import router from "./router";
 import VueLazyload from "vue-lazyload";
 import Paginate from "vuejs-paginate-next";
+import store from "./store";
 
 import HeaderComponent from "@/components/partials/HeaderComponent.vue";
 import FooterComponent from "@/components/partials/FooterComponent.vue";
 import CommentComponent from "@/components/CommentComponent.vue";
 import RightContentComponent from "@/components/RightContentComponent.vue";
-
-// MODULE
-import { createStore } from 'vuex';
-
-const store = createStore({
-    modules: {
-        auth: require('@/store/auth').default,
-        home: require('@/store/home').default,
-        detail: require('@/store/detail').default,
-    }
-})
-
 
 const app = createApp(App);
 
