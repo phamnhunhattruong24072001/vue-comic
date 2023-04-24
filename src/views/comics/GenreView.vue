@@ -26,7 +26,7 @@
                                   <div class="section-title">
                                       <h4>THỂ LOẠI 
                                         <span v-if="genre">- {{ genre.name }}</span>
-                                        <span v-if="!genre">- TẤT CẢ</span>
+                                        <span v-else>- TẤT CẢ</span>
                                     </h4>
                                   </div>
                               </div>
@@ -42,7 +42,7 @@
                                     </div>
                               </div>
                           </div>
-                          <div class="row content-genre" v-if="is_genre_slug">
+                          <div class="row content-genre" v-if="slug_param == ''">
                               <div class="item-checkbox-genre" v-for="genre in filter.genres" :key="genre.id">
                                   <article class="feature1">
                                       <input type="checkbox" name="checkGenre[]" :checked="genre.slug == slug_param" :value="genre.slug"
@@ -125,9 +125,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import moment from "moment";
 import RightContentComponent from '@/components/RightContentComponent.vue';
+import { mapActions, mapState }  from 'vuex';
 
 export default {
     components: {
@@ -142,65 +141,21 @@ export default {
             API_URL: process.env.VUE_APP_API_URL,
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
             slug_param: this.$route.params.slug,
-            comics: {},
-            filter: {
-                genres: {},
-                soft: 'DESC',
-            },
-            lastPage: 0,
-            is_genre_slug: true,
-            genre: {},
         };
     },
+    computed: {
+        ...mapState('genre', ['comics', 'filter', 'lastPage', 'genre']),
+    },
     methods: {
+        ...mapActions('genre', ['getData', 'filterData']),
         loadData: function(slug) 
         {
-            axios.get(`${this.API_URL}/page/genre-comic/${slug}`)
-            .then((response) => {
-                const comics = response.data.data.comics.data;
-                comics.forEach((comic) => {
-                    comic.chapter_latest.created_at = moment(
-                            comic.chapter_latest.created_at
-                        )
-                        .locale("vi")
-                        .fromNow(true);
-                });
-
-                this.lastPage = response.data.data.comics.last_page;
-                this.slug_param = slug;
-                if (this.slug_param) {
-                    this.is_genre_slug = false;
-                }else {
-                    this.is_genre_slug = true;
-                }
-                this.filter = {
-                    genres: response.data.data.genres,
-                }
-                this.comics = comics;
-                this.genre = response.data.data.genre;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            this.slug_param = slug;
+            this.getData(slug)
         },
-        filterData: function(data)
+        filterDataView: function(data)
         { 
-            axios.post(`${this.API_URL}/page/filter-genre-comic`, data)
-            .then((response) => {
-                const comics = response.data.data.comics.data;
-                comics.forEach((comic) => {
-                    comic.chapter_latest.created_at = moment(
-                            comic.chapter_latest.created_at
-                        )
-                        .locale("vi")
-                        .fromNow(true);
-                });
-                this.comics = comics;
-                this.lastPage = response.data.data.comics.last_page;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            this.filterData(data)
         },
         handleFilterData: function(pageNum = 1){
             let checkedGenres = [];
@@ -221,7 +176,7 @@ export default {
                 softField: softField,
                 softType: softType
             };
-            this.filterData(data)
+            this.filterDataView(data)
         },
     },
     created(){

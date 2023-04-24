@@ -1,7 +1,6 @@
 <template>
     <div>
         <!-- Breadcrumb Begin -->
-        
         <div class="breadcrumb-option">
             <div class="container">
                 <div class="row">
@@ -175,14 +174,11 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <div v-if="loading" class="loading-comment loading-item"></div>
-                        <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="200">
-                            <comment-component :comic_id="comic.id"></comment-component>
-                        </div>
-                        
+                        <div v-if="loading || loadingItem" class="loading-comment loading-item loading-item__loader"></div>
+                        <comment-component v-else :comic_id="comic.id"></comment-component>
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <div v-if="loading" class="loading-anime__details__sidebar loading-item"></div>
+                        <div v-if="loading || loadingItem" class="loading-anime__details__sidebar loading-item loading-item__loader"></div>
                         <div v-else class="anime__details__sidebar">
                             <div class="section-title">
                                 <h5>Có thể bạn thích</h5>
@@ -211,7 +207,7 @@ import { mapActions, mapState, mapGetters }  from 'vuex';
 
 export default {
     components: {
-        CommentComponent
+        CommentComponent,
     },
     name: "DetailView",
     props: {
@@ -224,7 +220,7 @@ export default {
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
             slug_comic: this.$route.params.slug,
             loading: true,
-            busy: false,
+            loadingItem: true,
         };
     },
     computed: {
@@ -243,6 +239,9 @@ export default {
     created() {
         this.callActionGetDetail(this.slug_comic);
     },
+    mounted(){
+        window.addEventListener('scroll', this.handleScroll);
+    },
     methods: {
         ...mapActions('detail', ['getData', 'resetData']),
         callActionGetDetail(slug) {
@@ -254,19 +253,24 @@ export default {
         callActionClearData() {
             this.resetData()
         },
-        loadMore() {
-            this.busy= true;
-            alert(1)
-        }
+        handleScroll() {
+            if (window.scrollY > 420) {
+                setTimeout(() => {
+                    this.loadingItem = false;
+                }, 200)
+            }
+        },
     },
     watch: {
         "$route.params.slug"(newValue) {
             this.loading = true;
+            this.loadingItem = true; 
             this.callActionGetDetail(newValue);
         },
     },
     beforeRouteLeave(to, from, next) {
-        this.loading = true; 
+        this.loading = true;
+        this.loadingItem = true; 
         this.callActionClearData();
         next();
     }

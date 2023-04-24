@@ -12,10 +12,10 @@ export default {
         comicComingSoon: (state) => state.comicComingSoon,
     },
     mutations: {
-        SET_COMIC_NEW(state, comicNew) {
+        setComicNew(state, comicNew) {
             state.comicNew = comicNew;
         },
-        SET_COMIC_COMMING_SOON(state, comicComingSoon) {
+        setComicCommingSoon(state, comicComingSoon) {
             state.comicComingSoon = comicComingSoon;
         },
     },
@@ -31,14 +31,11 @@ export default {
                 comic_coming_soon.forEach(item => {
                     item.chapter_latest.created_at = formatDate(item.created_at)
                 });
-                commit('SET_COMIC_NEW', comic_new)
-                commit('SET_COMIC_COMMING_SOON', comic_coming_soon)
+                commit('setComicNew', comic_new)
+                commit('setComicCommingSoon', comic_coming_soon)
             }).catch((error) => {
                 console.log(error)
             })
         }
     },
-    module: {
-
-    }
 }

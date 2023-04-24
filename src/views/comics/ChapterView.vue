@@ -85,8 +85,7 @@
 </template>
 
 <script>
-import axios from "axios";
-// import moment from "moment";
+import { mapActions, mapState }  from 'vuex';
 export default {
     name: "ChapterView",
     props: {
@@ -100,39 +99,28 @@ export default {
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
             slug_comic: this.$route.params.slug,
             slug_chapter: this.$route.params.chapter,
-            chapter_detail: {},
-            comic: {},
-            images: [],
-            preChapter: {},
-            nextChapter: {},
         };
     },
     mounted() {
         this.loadChapterData(this.slug_chapter);
     },
+    computed: {
+        ...mapState('chapter', [
+            'chapter_detail',
+            'comic',
+            'preChapter',
+            'nextChapter',
+            'images'
+        ]),
+    },
     methods: {
+        ...mapActions('chapter', ['getData']),
         changeChapter(e) {
             const slug = e.target.value;
             this.$router.push("/read-comic/" + this.slug_comic + "/" + slug);
         },
-        loadChapterData(newValue) {
-            axios.get(`${this.API_URL}/page/read-page/${this.slug_comic}/${newValue}`)
-            .then((response) => {
-                const chapter = response.data.data.chapter;
-                const comic = response.data.data.comic;
-                const images = response.data.data.chapter.content_image;
-                const preChapters = response.data.data.preChapter;
-                const nextChapters = response.data.data.nextChapter;
-
-                this.preChapter = preChapters;
-                this.nextChapter = nextChapters;
-                this.chapter_detail = chapter;
-                this.comic = comic;
-                this.images = JSON.parse(images);
-                
-            }).catch((error) => {
-                console.log(error);
-            })
+        loadChapterData(slugChapter) {
+            this.getData({ slugComic: this.slug_comic, slugChapter})
         },
     },
     watch: {

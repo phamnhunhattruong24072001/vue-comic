@@ -16,34 +16,34 @@ export default {
         registerError: (state) => state.registerError,
     },
     mutations: {
-        SET_USER(state, user) {
+        setUser(state, user) {
             state.user = user;
         },
-        SET_LOGGING_IN(state, isLoggingIn) {
+        setLoggingIn(state, isLoggingIn) {
             state.isLoggingIn = isLoggingIn;
         },
-        SET_LOGGING_ERROR(state, error) {
+        setLoggingError(state, error) {
             state.loginError = error;
         },
-        SET_REGISTER_ERROR(state, error) {
+        setRegisterError(state, error) {
             state.registerError = error;
         }
     },
     actions: {
-        login({commit}, formData) {
+        async login({commit}, formData) {
             commit('SET_LOGGING_IN', true);
-            return authApi.login(formData)
+            return await authApi.login(formData)
                 .then((response) => {
-                    commit('SET_USER', response.data.data.user);
+                    commit('setUser', response.data.data.user);
                     localStorage.setItem('user', JSON.stringify(response.data.data.user));
                 })
                 .catch((error) => {
-                    commit('SET_LOGGING_ERROR', error.response.data.message)
+                    commit('setLoggingError', error.response.data.message)
                 })
         },
-        register({commit}, formData) {
+        async register({commit}, formData) {
             commit('SET_REGISTER_ERROR', false)
-            return authApi.register(formData)
+            return await authApi.register(formData)
                 .then((response) => {
                     if(response.status == 200) {
                         this.$router.push({name: 'login'})
@@ -56,7 +56,4 @@ export default {
                 })
         }
     },
-    module: {
-
-    }
 }

@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.7",
-    "axios": "^1.3.4",
+    "axios": "^1.3.6",
     "bootstrap": "^5.2.3",
-    "core-js": "^3.8.3",
+    "core-js": "^3.30.1",
     "dotenv": "^16.0.3",
     "laravel-echo": "^1.15.0",
     "laravel-echo-server": "^1.6.3",
@@ -25,10 +25,10 @@
     "vue-select2": "^0.2.6",
     "vuejs-paginate": "^2.1.0",
     "vuejs-paginate-next": "^1.0.2",
-    "vuex": "^4.0.2"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
+    "@babel/core": "^7.21.4",
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",

@@ -3,8 +3,8 @@
         <div class="section-title">
             <h5>Your Comment</h5>
         </div>
-        <form v-if="clientLogin" @submit.prevent="handleChat">
-            <textarea placeholder="Your Comment" v-model="message"></textarea>
+        <form v-if="checkLogin" @submit.prevent="handleChat">
+            <textarea placeholder="Your Comment" v-model="messageValue"></textarea>
             <button type="submit">
                 <i class="fa fa-location-arrow"></i> Review
             </button>
@@ -25,7 +25,7 @@
                     <img :src="item.avatar" alt="" />
                 </div>
                 <div class="anime__review__item__text" >
-                    <h6 :class="clientLogin && item.client.id == clientLogin.id ? 'text-danger' : ''">{{ item.client.name }} - <span>{{ item.created_at }}</span></h6>
+                    <h6 :class="checkLogin && item.client.id == userLogin.id ? 'text-danger' : ''">{{ item.client.name }} - <span>{{ item.created_at }}</span></h6>
                     <p>
                         {{ item.message }}
                     </p>
@@ -47,9 +47,8 @@
 
 
 <script>
-import axios from 'axios';
 import Pusher from 'pusher-js'
-import moment from "moment";
+import { mapActions, mapState }  from 'vuex';
 
 export default {
     name: 'CommentComponent',
@@ -63,81 +62,49 @@ export default {
             BASE_URL: process.env.VUE_APP_BASE_URL,
             API_URL: process.env.VUE_APP_API_URL,
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
-            comments: {},
-            message: '',
-            clientLogin: {},
-            lastPage: '',
-            thisPage: 1,
+            messageValue: '',
         }
     },
+    computed: {
+        ...mapState('comment', [
+            'comments' ,
+            'thisPage',
+            'lastPage',
+            'message',
+            'checkLogin',
+            'userLogin'
+        ]),
+    },
     methods: {
-        getData: function(page = 1) 
-        {
-            axios.get(`${this.API_URL}/comment/get-list/${this.comic_id}?page=${page}`)
-                .then(response => {
-                    const comments = response.data.data.comments.data
-                    
-                    this.thisPage = page;
-                    this.lastPage = response.data.data.comments.last_page;
-
-                    comments.forEach((comment) => {
-                        comment.created_at = moment(comment.created_at).locale("vi").fromNow(true);
-                        comment.avatar = this.formatImage(comment.avatar)
-                    });
-
-                    this.comments = comments;
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+        ...mapActions('comment', ['getData', 'addData', 'addDataComment']),
+        getDataView: function(page = 1) {
+            this.getData({ comicId: this.comic_id, page});
         },
         handleChat: function() 
         {
-            let data = {
-                client_id: this.clientLogin.id,
+            let formData = {
+                client_id: this.userLogin.id,
                 comic_id: this.comic_id,
-                message: this.message,
-                _token: localStorage.getItem('access_token'),
+                message: this.messageValue,
             }
-            axios.post(`${this.API_URL}/comment`, data)
-                .then((response) => {
-                    console.log(response.status);
-                    this.message = '';
-                }).catch((error) => {
-                    console.log(error);
-                })
+            this.addData(formData)
+            .then(() => {
+                this.messageValue = '';
+            })
         },
         handleComment: function(comment = {}) 
         {
-            if (this.thisPage == 1) {
-                comment.created_at = moment(comment.created_at).locale("vi").fromNow(true);
-                comment.avatar = this.formatImage(comment.avatar)
-                const newComment = [].concat(comment, this.comments);
-                this.comments = newComment;
-            }
-            
-        },
-        formatImage: function(image)
-        {
-            if(!image) {
-                image = 'https://cdn.landesa.org/wp-content/uploads/default-user-image.png';
-            }else{
-                image = this.API_URL_IMAGE+image
-            }
-            return image;
+            this.addDataComment(comment);
         },
         handlePaginate: function(pageNum) 
         {
-            this.getData(pageNum)
+            this.getDataView(pageNum);
         }
     },
     created() {
-        this.getData();
+        this.getDataView();
     },
     mounted() {
-        if(localStorage.getItem('user')){
-            this.clientLogin = JSON.parse(localStorage.getItem('user'))
-        }
         Pusher.logToConsole = true;
 
         let pusher = new Pusher(process.env.VUE_APP_MIX_PUSHER_APP_KEY, {

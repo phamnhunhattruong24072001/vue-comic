@@ -44,7 +44,7 @@ export default {
             state.country = payload.country;
             state.category = payload.category;
         },
-        resetState (state) {
+        resetData (state) {
             Object.assign(state, getDefaultState())
         }
     },
@@ -73,7 +73,7 @@ export default {
             })
         },
         resetData: ({commit}) => {
-            commit('resetState')
+            commit('resetData')
         }
     },
     module: {

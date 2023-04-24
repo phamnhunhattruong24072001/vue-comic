@@ -6,7 +6,6 @@ import router from "./router";
 import VueLazyload from "vue-lazyload";
 import Paginate from "vuejs-paginate-next";
 import store from "./store";
-import infiniteScroll from 'vue-infinite-scroll'
 
 import HeaderComponent from "@/components/partials/HeaderComponent.vue";
 import FooterComponent from "@/components/partials/FooterComponent.vue";
@@ -23,7 +22,6 @@ app.use(VueLazyload, {
 });
 app.use(router);
 app.use(store);
-app.use(infiniteScroll)
 
 app
     .component("HeaderComponent", HeaderComponent)
