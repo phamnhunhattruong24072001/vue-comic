@@ -1,30 +1,13 @@
 import componentApi from '@/api/component';
+import {checkLogin, userLogin} from '@/helpers/index';
 
 const getDefaultState = () => {
     return {
         genres: [],
-        user: [],
-        is_login: false,
-        search: {
-            result: {},
-            text: '',
-        },
+        resultSearch: [],
+        checkLogin: checkLogin(), 
+        userLogin: userLogin(),
     }
-}
-
-function debounce(func, wait, immediate) {
-    let timeout;
-    return function() {
-        const context = this, args = arguments;
-        const later = function() {
-        timeout = null;
-        if (!immediate) func.apply(context, args);
-        };
-        const callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-    };
 }
 
 export default {
@@ -35,7 +18,10 @@ export default {
     },
     mutations: {
         setData(state, payload) {
-            
+            state.genres = payload.genres;
+        },
+        setDataSearch(state, payload) {
+            state.resultSearch = payload.resultSearch;
         },
     },
     actions: {
@@ -43,12 +29,29 @@ export default {
             await componentApi.getHeader()
             .then((response) => {
                 commit('setData', {
-                    
+                    genres: response.data.data.genres
                 })
             })
             .catch((error) => {
                 console.log(error);
             })
-        }
+        },
+        getDataSearch: async ({commit}, params) => {
+            await componentApi.search(params)
+            .then((response) => {
+                if(params.search.trim().length == 0) {
+                    commit('setDataSearch', {
+                        resultSearch: [],
+                    });
+                }else{
+                    commit('setDataSearch', {
+                        resultSearch: response.data.data.comics,
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        },
     }
 }

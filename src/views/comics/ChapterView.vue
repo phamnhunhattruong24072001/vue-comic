@@ -48,7 +48,8 @@
           <div class="row c-image">
               <div class="col-lg-12">
                   <div class="content-image">
-                      <div class="item-image" v-for="(image, index) in images" :key="image">
+                      <div v-if="loading" class="loading-item-image loading-item"></div>
+                      <div v-else class="item-image" v-for="(image, index) in images" :key="image">
                           <img v-lazy="API_URL_IMAGE + '/' + image" alt="" :key="image + index" />
                       </div>
                   </div>
@@ -99,6 +100,7 @@ export default {
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
             slug_comic: this.$route.params.slug,
             slug_chapter: this.$route.params.chapter,
+            loading: true,
         };
     },
     mounted() {
@@ -120,6 +122,9 @@ export default {
             this.$router.push("/read-comic/" + this.slug_comic + "/" + slug);
         },
         loadChapterData(slugChapter) {
+            setTimeout(() => {
+                this.loading = false;
+            }, 500);
             this.getData({ slugComic: this.slug_comic, slugChapter})
         },
     },

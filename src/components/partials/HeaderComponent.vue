@@ -13,12 +13,12 @@
                 <div class="col-lg-6">
                     <div class="search-box">
                         <div class="search-box__content">
-                            <input type="text" class="form-control form-search" v-model="search.text" @keyup="handleSearch" placeholder="Tìm kiếm tại đây">
+                            <input type="text" class="form-control form-search" v-model="search" @keyup="handleSearch" placeholder="Tìm kiếm tại đây">
                             <span class="icon-search"><i class="fa fa-search"></i></span>
-                            <div class="search-box__result" v-show="search.result">
+                            <div class="search-box__result" v-show="resultSearch">
                                 <ul>
-                                    <li v-for="item in search.result" :key="item.id">
-                                        <router-link :to="{name: 'detail-comic', params: { slug: item.slug} }" @click="search.text = ''; search.result = {}">
+                                    <li v-for="item in resultSearch" :key="item.id">
+                                        <router-link :to="{name: 'detail-comic', params: { slug: item.slug} }" @click="search = ''; resultSearch = []">
                                             <div class="img">
                                                 <img :src="API_URL_IMAGE+'/'+item.thumbnail" alt="">
                                             </div>
@@ -27,7 +27,7 @@
                                                 <span>{{ item.chapter_latest.name }}</span>
                                                 <div class="product__item__text">
                                                     <ul>
-                                                        <li v-for="genre in item.genres" :key="genre.id">
+                                                        <li v-for="genre in genres" :key="genre.id">
                                                             {{ genre.name }}
                                                         </li>
                                                     </ul>
@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions, mapState } from "vuex";
 
 function debounce(func, wait, immediate) {
     let timeout;
@@ -131,46 +131,27 @@ export default {
             BASE_URL: process.env.VUE_APP_BASE_URL,
             API_URL: process.env.VUE_APP_API_URL,
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
-            genres: [],
-            user: [],
-            is_login: false,
-            search: {
-                result: {},
-                text: '',
-            },
+            search: '',
             
         }
     },
-    mounted() {
-        axios.get(`${this.API_URL}/component/header`)
-        .then((response) => {
-            this.genres = response.data.data.genres
-        }).catch((error) => {
-            console.log(error)
-        });
-
-        if (localStorage.getItem('user') && localStorage.getItem('access_token')) {
-            this.user = localStorage.getItem('user');
-            this.is_login = true;
-        }
+    computed: {
+        ...mapState('header', ['genres', 'resultSearch'])
+    },
+    created() {
+        this.getDataView();
     },
     methods: {
+        ...mapActions('header', ['getData', 'getDataSearch']),
+        getDataView: function() {
+            this.getData();
+        },
         handleSearch: debounce(function()
         {
             let data = {
-                'search': this.search.text,
+                'search': this.search,
             };
-            if(this.search.text.trim().length === 0) {
-                this.search.result = {};
-            }else{
-                axios.post(`${this.API_URL}/component/search`, data)
-                .then((response) => {
-                    this.search.result = response.data.data.comics
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
-            }
+            this.getDataSearch(data)
         }, 500),
     }
 }

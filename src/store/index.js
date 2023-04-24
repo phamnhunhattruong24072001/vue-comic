@@ -8,6 +8,7 @@ const store = createStore({
         comment: require('@/store/modules/comment').default,
         genre: require('@/store/modules/genre').default,
         chapter: require('@/store/modules/chapter').default,
+        header: require('@/store/modules/header').default,
     }
 });
 

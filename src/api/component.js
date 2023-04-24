@@ -7,4 +7,8 @@ export default {
     {
         return axios.get(`${API_URL}/component/header`)
     },
+    search(formData)
+    {
+        return axios.post(`${API_URL}/component/search`, formData)
+    }
 }
