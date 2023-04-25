@@ -11,14 +11,6 @@ export default {
     {
         return await axios.get(`${API_URL}/page/detail-page/${slug}`);
     },
-    async getComment(comicId, page)
-    {
-        return await axios.get(`${API_URL}/comment/get-list/${comicId}?page=${page}`);
-    },
-    async addComment(formData)
-    {
-        return await axios.post(`${API_URL}/comment`, formData);
-    },
     async getComicByGenre(slug)
     {
         return await axios.get(`${API_URL}/page/genre-comic/${slug}`);

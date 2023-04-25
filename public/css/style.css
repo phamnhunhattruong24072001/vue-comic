@@ -1148,8 +1148,6 @@ ol {
 
 .anime__details__btn .follow-btn {
   font-size: 13px;
-  color: #ffffff;
-  background: #e53637;
   display: inline-block;
   font-weight: 700;
   letter-spacing: 2px;
@@ -1157,6 +1155,17 @@ ol {
   padding: 14px 20px;
   border-radius: 4px;
   margin-right: 11px;
+  
+}
+
+.anime__details__btn .follow-btn.un{
+  color: #ffffff;
+  border: 1px solid #fff;
+}
+
+.anime__details__btn .follow-btn.in{
+  color: #e53637;
+  border: 1px solid #e53637;
 }
 
 .anime__details__btn .watch-btn span {

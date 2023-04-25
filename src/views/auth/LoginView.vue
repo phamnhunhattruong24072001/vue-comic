@@ -71,6 +71,9 @@ export default {
         ...mapActions('auth', ['login']),
         handleSubmit: function() {
             this.login(this.form)
+            .then(() => {
+                location.reload();
+            })
         },
     },
 };

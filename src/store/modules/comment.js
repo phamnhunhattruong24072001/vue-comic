@@ -1,4 +1,4 @@
-import pageApi from '@/api/page';
+import commentApi from '@/api/comment';
 import { formatImage, formatDate, checkLogin, userLogin } from "@/helpers/index";
 
 const getDefaultState = () => {
@@ -33,7 +33,7 @@ export default {
     },
     actions: {
         getData: async ({ commit } , { comicId,  page }) => {
-            await pageApi.getComment(comicId, page)
+            await commentApi.getComment(comicId, page)
             .then((response) => {
                 const comments = response.data.data.comments;
                 comments.data.forEach((item) => {
@@ -51,7 +51,7 @@ export default {
             })
         },
         addData: async ({commit}, formData) => {
-            await pageApi.addComment(formData)
+            await commentApi.addComment(formData)
             .then(() => {
                 commit('setMessage', {
                     message: '',

@@ -566,3 +566,65 @@
 .loading-item-image{
   height: 700px;
 }
+
+/* css right header */
+.right-header {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.right-header__user{
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  position: relative;
+}
+
+.right-header__user img{
+  border-radius: 50%;
+} 
+
+.right-header__user:hover .dropdown__user{
+  visibility: visible;
+}
+
+.dropdown__user{
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 150px;
+  background-color: #EEEEEE;
+  z-index: 1;
+  visibility: hidden;
+}
+
+.dropdown__user li{
+  list-style: none;
+}
+
+.dropdown__user li a{
+  display: block;
+  height: 100%;
+  padding: 10px;
+  color: #000;
+  cursor: pointer;
+}
+
+.dropdown__user li a:hover{
+  color: #e53637;
+}
+
+/* css profile */
+
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: #fbc2eb;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1))
+  }

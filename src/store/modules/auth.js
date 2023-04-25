@@ -31,25 +31,37 @@ export default {
     },
     actions: {
         async login({commit}, formData) {
-            commit('SET_LOGGING_IN', true);
+            commit('setLoggingIn', true);
             return await authApi.login(formData)
                 .then((response) => {
                     commit('setUser', response.data.data.user);
                     localStorage.setItem('user', JSON.stringify(response.data.data.user));
+                    localStorage.setItem('access_token', response.data.data.access_token);
                 })
                 .catch((error) => {
-                    commit('setLoggingError', error.response.data.message)
-                })
+                    commit('setLoggingError', error)
+                });
         },
         async register({commit}, formData) {
-            commit('SET_REGISTER_ERROR', false)
+            commit('setRegisterError', false)
             return await authApi.register(formData)
                 .then((response) => {
                     if(response.status == 200) {
-                        this.$router.push({name: 'login'})
+                        this.$router.push({name: 'login'});
                     }else{
                         console.log(response.status);
                     }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+        },
+        async logout() {
+            return await authApi.logout()
+                .then(() => {
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("access_token");
+                    location.reload();
                 })
                 .catch((error) => {
                     console.log(error)

@@ -9,6 +9,7 @@ const store = createStore({
         genre: require('@/store/modules/genre').default,
         chapter: require('@/store/modules/chapter').default,
         header: require('@/store/modules/header').default,
+        client: require('@/store/modules/client').default,
     }
 });
 

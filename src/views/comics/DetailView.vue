@@ -108,8 +108,9 @@
                                     </div>
                                 </div>
                                 <div class="anime__details__btn">
-                                    <a href="#" class="follow-btn">
-                                        <i class="fa fa-heart-o"></i> Follow </a>
+                                    <a href="#" class="follow-btn un">
+                                        <i class="fa fa-heart-o"></i> Yêu thích 
+                                    </a>
                                     <router-link v-if="newChapter && newChapter.slug" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: newChapter.slug }, }" class="watch-btn">
                                         <span>New Chapter</span>
                                         <i class="fa fa-angle-right"></i>
