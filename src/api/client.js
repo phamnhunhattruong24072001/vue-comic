@@ -4,33 +4,33 @@ const API_URL = process.env.VUE_APP_API_URL;
 const TOKEN = localStorage.getItem('access_token');
 
 export default {
-    addFavorite(data)
+    async addFavorite(data)
     {
-        return axios.post(`${API_URL}/client/add-favorite`, data, {
+        return await axios.post(`${API_URL}/client/add-favorite`, data, {
             headers : {
                 Authorization: `${TOKEN}`
             },
         });
     },
-    removeFavorite(data)
+    async removeFavorite(data)
     {
-        return axios.post(`${API_URL}/client/remove-favorite`, data, {
+        return await axios.post(`${API_URL}/client/remove-favorite`, data, {
             headers : {
                 Authorization: `${TOKEN}`
             },
         });
     },
-    getListFavorite(clientId)
+    async getListFavorite(clientId)
     {
-        return axios.get(`${API_URL}/client/get-list-favorite/${clientId}`,{
+        return await axios.get(`${API_URL}/client/get-list-favorite/${clientId}`,{
             headers : {
                 Authorization: `${TOKEN}`
             },
         });
     },
-    checkFavorite(clientId, $comcicId)
+    async checkFavoriteApi(clientId, $comcicId)
     {
-        return axios.get(`${API_URL}/client/check-favorite/${clientId}/${$comcicId}`,{
+        return await axios.get(`${API_URL}/client/check-favorite/${clientId}/${$comcicId}`,{
             headers : {
                 Authorization: `${TOKEN}`
             },

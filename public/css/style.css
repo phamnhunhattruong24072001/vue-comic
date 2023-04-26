@@ -377,13 +377,14 @@ ol {
   margin-right: 0;
 }
 
-.header__menu ul li .dropdown {
+.header__menu ul li .dropdown,
+.header__menu ul li .dropdown-min {
   position: absolute;
   left: 0;
   top: 62px;
   width: 100%;
-  min-height: 200px;
-  background: #ffffff;
+  min-height: 150px;
+  background: aliceblue;
   text-align: left;
   padding: 5px 0;
   z-index: 9;
@@ -392,22 +393,41 @@ ol {
   -webkit-transition: all, 0.3s;
   -o-transition: all, 0.3s;
   transition: all, 0.3s;
+  border-top: 1px solid #000;
 }
 
-.header__menu ul li .dropdown li {
+.header__menu-min{
+  position: relative;
+}
+
+.header__menu ul li:hover .dropdown-min {
+  top: 42px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.header__menu ul li:hover .dropdown-min li a {
+  background: transparent;
+}
+
+
+.header__menu ul li .dropdown li,
+.header__menu ul li .dropdown-min li {
   display: inline-block;
   margin-right: 0;
   padding: 10px 20px;
 }
 
-.header__menu ul li .dropdown li a {
+.header__menu ul li .dropdown li a,
+.header__menu ul li .dropdown-min li a {
   font-size: 14px;
   color: #111111;
   font-weight: 500;
   
 }
 
-.header__menu ul li .dropdown li a:hover {
+.header__menu ul li .dropdown li a:hover,
+.header__menu ul li .dropdown-min li a:hover {
   color: #ca2027;
 }
 
@@ -1155,6 +1175,7 @@ ol {
   padding: 14px 20px;
   border-radius: 4px;
   margin-right: 11px;
+  background: none;
   
 }
 
@@ -1177,7 +1198,7 @@ ol {
   letter-spacing: 2px;
   text-transform: uppercase;
   padding: 14px 20px;
-  border-radius: 4px 0 0 4px;
+  border-radius: 4px;
 }
 
 .anime__details__btn .watch-btn i {

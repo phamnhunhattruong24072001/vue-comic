@@ -63,7 +63,7 @@
     <!-- Header End -->
 
     <!-- Navbar -->
-    <div class="header">
+    <div class="header" :id="$route.name != 'chapter' ? 'myHeaderView' : ''">
         <nav style="background-color: aliceblue;">
             <div class="container">
                 <div class="row">
@@ -83,13 +83,21 @@
                                     <li>
                                         <router-link :to="{ name: 'home' }">Lịch sử</router-link>
                                     </li>
-                                    <li>
+                                    <li class="header__menu-min">
                                         <a href="">Quốc gia <span class="arrow_carrot-down"></span></a>
-                                        <ul class="dropdown"></ul>
+                                        <ul class="dropdown-min">
+                                            <li v-for="country in countries" :key="country.id">
+                                                <router-link :to="{ name: 'genre', params: { slug: country.slug } }">{{ country.name}}</router-link>
+                                            </li>
+                                        </ul>
                                     </li>
-                                    <li>
+                                    <li class="header__menu-min">
                                         <a href="">Danh mục <span class="arrow_carrot-down"></span></a>
-                                        <ul class="dropdown"></ul>
+                                        <ul class="dropdown-min">
+                                            <li v-for="category in categories" :key="category.id">
+                                                <router-link :to="{ name: 'genre', params: { slug: category.slug } }">{{ category.name}}</router-link>
+                                            </li>
+                                        </ul>
                                     </li>
                                     <li>
                                         <router-link :to="{ name: 'genre', params: { slug: '' } }">Thể loại <span class="arrow_carrot-down"></span></router-link>
@@ -148,7 +156,14 @@ export default {
         };
     },
     computed: {
-        ...mapState("header", ["genres", "resultSearch", "checkLogin", "userLogin"]),
+        ...mapState("header", [
+            "genres",
+            "resultSearch",
+            "checkLogin",
+            "userLogin",
+            "countries",
+            'categories'
+        ]),
     },
     created() {
         this.getDataView();

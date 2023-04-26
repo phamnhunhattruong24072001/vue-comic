@@ -187,7 +187,9 @@ export default {
     },
     watch: {
         "$route.params.slug"(newValue) {
-            this.loadData(newValue);
+            if(newValue) {
+                this.loadData(newValue);
+            }
         },
     },
 };

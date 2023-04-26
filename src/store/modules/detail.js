@@ -1,4 +1,5 @@
 import pageApi from '@/api/page';
+import router from '@/router';
 
 const getDefaultState = () => {
     return {
@@ -10,6 +11,8 @@ const getDefaultState = () => {
         genres: [],
         country: [],
         category: [],
+        showChapter: true,
+        commentTotal: 0,
     }
   }
 
@@ -43,38 +46,47 @@ export default {
             state.genres = payload.genres;
             state.country = payload.country;
             state.category = payload.category;
+            state.commentTotal = payload.commentTotal;
         },
-        resetData (state) {
-            Object.assign(state, getDefaultState())
+        setShowChapter(state, payload) {
+            state.showChapter = payload.showChapter;
         }
     },
     actions: {
         getData: async({commit}, slug) => {
             await pageApi.getDataDetailPage(slug)
             .then((response) => {
-                const comic = response.data.data.comic;
-                const chapters = comic.chapters;
-
-                const minKey = Math.min(...chapters.keys());
-                const maxKey = Math.max(...chapters.keys());
-                
-                commit('setData', {
-                    comic,
-                    chapters,
-                    figures: comic.figures,
-                    genres: comic.genres,
-                    country: comic.country,
-                    category: comic.category,
-                    newChapter: chapters[minKey],
-                    latestChapter: chapters[maxKey],
-                })
+                if(response.data.code == 200) {
+                    const comic = response.data.data.comic;
+                    const chapters = comic.chapters;
+                    
+                    const minKey = Math.min(...chapters.keys());
+                    const maxKey = Math.max(...chapters.keys());
+                    
+                    if(comic.status != 2) {
+                        commit('setShowChapter', {
+                            showChapter: false,
+                        });
+                    }
+    
+                    commit('setData', {
+                        comic,
+                        chapters,
+                        figures: comic.figures,
+                        genres: comic.genres,
+                        country: comic.country,
+                        category: comic.category,
+                        newChapter: chapters[minKey],
+                        latestChapter: chapters[maxKey],
+                        commentTotal: response.data.data.commentTotal
+                    });
+                }else{
+                    router.push({name: 'home'})
+                }
             }).catch((error) => {
                 console.log(error)
             })
         },
-        resetData: ({commit}) => {
-            commit('resetData')
-        }
     },
     module: {
 

@@ -22,8 +22,9 @@
                   <div class="col-lg-3">
                       <div class="left">
                           <router-link :to="{ name: 'home' }"><i class="fa fa-home"></i></router-link>
-                          <router-link :to="{ name: 'detail-comic', params: { slug: slug_comic } }"><i class="fa fa-bars"
-                              aria-hidden="true"></i></router-link>
+                          <router-link :to="{ name: 'detail-comic', params: { slug: slug_comic } }">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                          </router-link>
                       </div>
                   </div>
                   <div class="col-lg-6">
@@ -36,8 +37,7 @@
                                   {{ item.name }}
                               </option>
                           </select>
-                          <router-link v-if="nextChapter && nextChapter.slug"
-                              :to="{ name: 'chapter', params: { slug: slug_comic, chapter: nextChapter.slug }, }">Next</router-link>
+                          <router-link v-if="nextChapter && nextChapter.slug" :to="{ name: 'chapter', params: { slug: slug_comic, chapter: nextChapter.slug }, }">Next</router-link>
                       </div>
                   </div>
                   <div class="col-lg-3"></div>
@@ -103,7 +103,7 @@ export default {
             loading: true,
         };
     },
-    mounted() {
+    created() {
         this.loadChapterData(this.slug_chapter);
     },
     computed: {
@@ -130,7 +130,9 @@ export default {
     },
     watch: {
         "$route.params.chapter"(newValue) {
-            this.loadChapterData(newValue);
+            if(newValue) {
+                this.loadChapterData(newValue);
+            }
         },
     },
 };

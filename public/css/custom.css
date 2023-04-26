@@ -201,6 +201,15 @@
   background-color: #dddddd;
 }
 
+.stickyView {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  padding: 0;
+  background-color: #dddddd;
+}
+
 /* css checkbox */
 .content-genre {
   padding: 20px 0 20px 10px;

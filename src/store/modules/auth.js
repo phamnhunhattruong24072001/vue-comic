@@ -47,7 +47,7 @@ export default {
             return await authApi.register(formData)
                 .then((response) => {
                     if(response.status == 200) {
-                        this.$router.push({name: 'login'});
+                        console.log(response.status);
                     }else{
                         console.log(response.status);
                     }

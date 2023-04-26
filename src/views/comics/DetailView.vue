@@ -30,7 +30,7 @@
                                     <img :src="API_URL_IMAGE + '/' + country.avatar" :alt="country.name" />
                                 </div>
                                 <div class="comment">
-                                    <i class="fa fa-comments"></i> 11
+                                    <i class="fa fa-comments"></i> {{ commentTotal }}
                                 </div>
                                 <div class="view">
                                     <i class="fa fa-eye"></i> {{ comic.view }}
@@ -108,16 +108,17 @@
                                     </div>
                                 </div>
                                 <div class="anime__details__btn">
-                                    <a href="#" class="follow-btn un">
+                                    <button v-if="!is_favorite && checkLogin" class="follow-btn un" @click="handleAddFavorite(userLogin.id, comic.id)">
                                         <i class="fa fa-heart-o"></i> Yêu thích 
-                                    </a>
+                                    </button>
+                                    <button v-else class="follow-btn in" @click="handleRemoveFavorite(userLogin.id, comic.id)">
+                                        <i class="fa fa-heart-o"></i> Hủy yêu thích 
+                                    </button>
                                     <router-link v-if="newChapter && newChapter.slug" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: newChapter.slug }, }" class="watch-btn">
                                         <span>New Chapter</span>
-                                        <i class="fa fa-angle-right"></i>
                                     </router-link>
                                     <router-link v-if="latestChapter && latestChapter.slug" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: latestChapter.slug }, }" class="watch-btn ml-2">
                                         <span>Latest Chapter</span>
-                                        <i class="fa fa-angle-right"></i>
                                     </router-link>
                                 </div>
                             </div>
@@ -131,10 +132,16 @@
                             <div class="section-title">
                                 <h5>Chapters</h5>
                             </div>
-                            <router-link v-for="chapter in chapters" :key="chapter.id" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: chapter.slug }, }">
-                                {{ chapter.name }}
-                            </router-link>
+                            <div v-if="showChapter">
+                                <router-link v-for="chapter in chapters" :key="chapter.id" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: chapter.slug }, }">
+                                    {{ chapter.name }}
+                                </router-link>
+                            </div>
+                            <div v-else>
+                                <div class="alert alert-primary" role="alert"> Đang cập nhật .... </div>
+                            </div>
                         </div>
+                        
                         <div v-if="loading" class="loading-anime__details__figures loading-item"></div>
                         <div v-else class="anime__details__figures">
                             <div class="section-title">
@@ -234,6 +241,13 @@ export default {
                 'genres',
                 'country',
                 'category',
+                'showChapter',
+                'commentTotal'
+            ]),
+            ...mapState('client',[
+                'checkLogin',
+                'userLogin',
+                'is_favorite'
             ]),
         ...mapGetters('detail', ['figures'])
     },
@@ -242,37 +256,57 @@ export default {
     },
     mounted(){
         window.addEventListener('scroll', this.handleScroll);
+        if(window.pageXOffset > 300) {
+            this.loadingItem = false;
+        }
     },
     methods: {
-        ...mapActions('detail', ['getData', 'resetData']),
+        ...mapActions('detail', ['getData']),
+        ...mapActions('client', ['checkFavorite', 'addFavorite', 'removeFavorite']),
         callActionGetDetail(slug) {
             this.getData(slug)
                 .then(() => {
-                    this.loading = false;
+                    this.handleCheckFavorite(this.comic.id);
+                    setTimeout(() => {
+                        this.loading = false;
+                    }, 300)
                 })
         },
-        callActionClearData() {
-            this.resetData()
-        },
         handleScroll() {
-            if (window.scrollY > 420) {
+            if (window.scrollY > 300) {
                 setTimeout(() => {
                     this.loadingItem = false;
                 }, 200)
             }
         },
+        handleCheckFavorite(comicId) {
+            this.checkFavorite(comicId)
+        },
+        handleAddFavorite(clientId, comicId) {
+            this.addFavorite({
+                client_id: clientId,
+                comic_id: comicId,
+            });
+        },
+        handleRemoveFavorite(clientId, comicId) {
+            this.removeFavorite({
+                client_id: clientId,
+                comic_id: comicId,
+            });
+        },
     },
     watch: {
         "$route.params.slug"(newValue) {
-            this.loading = true;
-            this.loadingItem = true; 
-            this.callActionGetDetail(newValue);
+            if(newValue) {
+                this.loading = true;
+                this.loadingItem = true; 
+                this.callActionGetDetail(newValue);
+            }
         },
     },
     beforeRouteLeave(to, from, next) {
         this.loading = true;
         this.loadingItem = true; 
-        this.callActionClearData();
         next();
     }
 };
