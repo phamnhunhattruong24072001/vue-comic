@@ -84,18 +84,18 @@
                                         <router-link :to="{ name: 'home' }">Lịch sử</router-link>
                                     </li>
                                     <li class="header__menu-min">
-                                        <a href="">Quốc gia <span class="arrow_carrot-down"></span></a>
+                                        <router-link :to="{ name: 'country', params: { slug: '' } }">Quốc gia <span class="arrow_carrot-down"></span></router-link>
                                         <ul class="dropdown-min">
                                             <li v-for="country in countries" :key="country.id">
-                                                <router-link :to="{ name: 'genre', params: { slug: country.slug } }">{{ country.name}}</router-link>
+                                                <router-link :to="{ name: 'country', params: { slug: country.slug } }">{{ country.name}}</router-link>
                                             </li>
                                         </ul>
                                     </li>
                                     <li class="header__menu-min">
-                                        <a href="">Danh mục <span class="arrow_carrot-down"></span></a>
+                                        <router-link :to="{ name: 'category', params: { slug: '' } }">Danh mục <span class="arrow_carrot-down"></span></router-link>
                                         <ul class="dropdown-min">
                                             <li v-for="category in categories" :key="category.id">
-                                                <router-link :to="{ name: 'genre', params: { slug: category.slug } }">{{ category.name}}</router-link>
+                                                <router-link :to="{ name: 'category', params: { slug: category.slug } }">{{ category.name}}</router-link>
                                             </li>
                                         </ul>
                                     </li>
@@ -111,7 +111,7 @@
                                         <router-link :to="{ name: 'home' }">Yêu thích</router-link>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'home' }">Tìm truyện</router-link>
+                                        <router-link :to="{ name: 'searchComic' }">Tìm truyện</router-link>
                                     </li>
                                 </ul>
                             </nav>

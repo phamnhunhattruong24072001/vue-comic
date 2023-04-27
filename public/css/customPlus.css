@@ -1,0 +1,70 @@
+/* css pofile */
+.gradient-custom-2{
+    margin-bottom: 100px;
+}
+.box-left ul {
+  display: flex;
+  width: 100%;
+  background: #eeeeee;
+  flex-direction: column;
+  border-radius: 4px;
+}
+.box-left ul li {
+  list-style: none;
+}
+.box-left ul li a {
+  display: block;
+  height: 100%;
+  padding: 20px;
+  color: #000;
+  font-weight: 600;
+}
+.box-left ul li a:hover {
+  color: #e53637;
+}
+
+.box-right{
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 20px;
+    height: 100%;
+}
+.content-comic-profile{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    
+    background: #EEEEEE;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.content-comic-profile .content-item-image{
+    width: 30%;
+    height: 100px;
+}
+
+.content-comic-profile .content-item-text{
+    width: 70%;
+    padding: 10px;
+    position: relative;
+}
+
+.content-comic-profile .content-item-image img{
+    height: 100%;
+}
+
+.content-item-text .name{
+    display: block;
+    font-weight: 600;
+}
+
+.content-item-text .icon{
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    font-size: 25px;
+    color: #e53637;
+}

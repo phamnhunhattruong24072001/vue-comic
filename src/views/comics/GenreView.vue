@@ -45,7 +45,7 @@
                           <div class="row content-genre" v-if="slug_param == ''">
                               <div class="item-checkbox-genre" v-for="genre in filter.genres" :key="genre.id">
                                   <article class="feature1">
-                                      <input type="checkbox" name="checkGenre[]" :checked="genre.slug == slug_param" :value="genre.slug"
+                                      <input type="checkbox" name="checkGenre[]" :checked="genre.slug == slug_param" :value="genre.id"
                                           ref="genreInputs" @click="handleFilterData()" />
                                       <div>
                                           <span>
@@ -144,14 +144,14 @@ export default {
         };
     },
     computed: {
-        ...mapState('genre', ['comics', 'filter', 'lastPage', 'genre']),
+        ...mapState('comic', ['comics', 'filter', 'lastPage', 'genre']),
     },
     methods: {
-        ...mapActions('genre', ['getData', 'filterData']),
+        ...mapActions('comic', ['getDataGenre', 'filterData']),
         loadData: function(slug) 
         {
             this.slug_param = slug;
-            this.getData(slug)
+            this.getDataGenre(slug)
         },
         filterDataView: function(data)
         { 
@@ -170,7 +170,7 @@ export default {
             }
             const data = {
                 pageNum: pageNum,
-                slugArr: checkedGenres,
+                genres: checkedGenres,
                 categories: [],
                 countries: [],
                 softField: softField,
@@ -187,9 +187,7 @@ export default {
     },
     watch: {
         "$route.params.slug"(newValue) {
-            if(newValue) {
-                this.loadData(newValue);
-            }
+            this.loadData(newValue);
         },
     },
 };

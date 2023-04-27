@@ -205,7 +205,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   padding: 0;
   background-color: #dddddd;
 }
@@ -624,16 +624,3 @@
 .dropdown__user li a:hover{
   color: #e53637;
 }
-
-/* css profile */
-
-.gradient-custom-2 {
-  /* fallback for old browsers */
-  background: #fbc2eb;
-  
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1));
-  
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1))
-  }

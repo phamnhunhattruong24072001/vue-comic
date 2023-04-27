@@ -5,9 +5,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <router-link :to="{name: 'genre', params: { slug: slug_param}}"><i class="fa fa-home"></i> Trang chủ</router-link>
-                        <router-link :to="{name: 'genre', params: { slug: ''}}">Thể loại</router-link>
-                        <span>{{ genre ? genre.name : 'Tất cả' }}</span>
+                        <router-link :to="{name: 'country', params: { slug: slug_param}}"><i class="fa fa-home"></i> Trang chủ</router-link>
+                        <router-link :to="{name: 'country', params: { slug: ''}}">Quốc gia</router-link>
+                        <span>{{ country ? country.name : 'Tất cả' }}</span>
                     </div>
                 </div>
             </div>
@@ -24,8 +24,8 @@
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-6">
                                     <div class="section-title">
-                                        <h4>THỂ LOẠI 
-                                          <span v-if="genre">- {{ genre.name }}</span>
+                                        <h4>Quốc gia
+                                          <span v-if="country">- {{ country.name }}</span>
                                           <span v-else>- TẤT CẢ</span>
                                       </h4>
                                     </div>
@@ -43,13 +43,14 @@
                                 </div>
                             </div>
                             <div class="row content-genre" v-if="slug_param == ''">
-                                <div class="item-checkbox-genre" v-for="genre in filter.genres" :key="genre.id">
+                                <div class="item-checkbox-genre" v-for="country in filter.countries" :key="country.id">
                                     <article class="feature1">
-                                        <input type="checkbox" name="checkGenre[]" :checked="genre.slug == slug_param" :value="genre.slug"
-                                            ref="genreInputs" @click="handleFilterData()" />
+                                        <input type="checkbox" name="checkCountry[]" :checked="country.slug == slug_param" :value="country.id"
+                                            ref="countryInputs" @click="handleFilterData()" />
                                         <div>
                                             <span>
-                                              {{ genre.name }}
+                                              {{ country.name }} 
+                                              <img :src="API_URL_IMAGE+'/'+country.avatar" alt="" height="20" width="30">
                                             </span>
                                         </div>
                                     </article>
@@ -144,23 +145,23 @@
           };
       },
       computed: {
-          ...mapState('genre', ['comics', 'filter', 'lastPage', 'genre']),
+          ...mapState('comic', ['comics', 'filter', 'lastPage', 'country']),
       },
       methods: {
-          ...mapActions('genre', ['getData', 'filterData']),
+          ...mapActions('comic', ['getDataCountry', 'filterData']),
           loadData: function(slug) 
           {
               this.slug_param = slug;
-              this.getData(slug)
+              this.getDataCountry(slug);
           },
           filterDataView: function(data)
           { 
-              this.filterData(data)
+              this.filterData(data);
           },
           handleFilterData: function(pageNum = 1){
-              let checkedGenres = [];
+              let checkedCountries = [];
               if(!this.slug_param) {
-                  checkedGenres = this.$refs.genreInputs.filter(input => input.checked).map(input => input.value)
+                  checkedCountries = this.$refs.countryInputs.filter(input => input.checked).map(input => input.value)
               }
               let softField = 'latest_chapter_time';
               let softType = this.filter.soft ?? 'DESC';
@@ -170,26 +171,21 @@
               }
               const data = {
                   pageNum: pageNum,
-                  slugArr: checkedGenres,
+                  genres: [],
                   categories: [],
-                  countries: [],
+                  countries: checkedCountries,
                   softField: softField,
                   softType: softType
               };
-              this.filterDataView(data)
+              this.filterDataView(data);
           },
       },
       created(){
           this.loadData(this.slug_param);
       },
-      mounted() {
-          
-      },
       watch: {
         "$route.params.slug"(newValue) {
-            if(newValue) {
-                this.loadData(newValue);
-            }
+            this.loadData(newValue);
         },
     },
   };

@@ -38,6 +38,12 @@ const routes = [
         props: true,
     },
     {
+        path: "/tim-truyen",
+        name: "searchComic",
+        component: () => import("@/views/comics/SearchComic.vue"),
+        props: true,
+    },
+    {
         path: "/dang-nhap",
         name: "login",
         component: () => import("@/views/auth/LoginView.vue"),
