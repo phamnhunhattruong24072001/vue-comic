@@ -46,7 +46,7 @@
                                         <div>
                                             <span>
                                               {{ country.name }} 
-                                              <img :src="API_URL_IMAGE+'/'+country.avatar" alt="" height="20" width="30">
+                                              <img :src="country.avatar" alt="" height="20" width="30">
                                             </span>
                                         </div>
                                     </article>
@@ -109,10 +109,10 @@
                                 <div class="product__item">
                                     <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }"
                                         class="product__item__pic set-bg">
-                                        <img :src="`${API_URL_IMAGE + '/' + item.thumbnail}`" :alt="item.name" />
+                                        <img :src="item.thumbnail" :alt="item.name" />
                                         <div class="ep">{{ item.chapter_latest.name }}</div>
                                         <div class="country" :title="item.country.name">
-                                            <img :src="API_URL_IMAGE + '/' + item.country.avatar" :alt="item.country.name" />
+                                            <img :src="item.country.avatar" :alt="item.country.name" />
                                         </div>
                                         <div class="comment">
                                             <i class="fa fa-clock-o" aria-hidden="true"></i>

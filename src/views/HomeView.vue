@@ -21,10 +21,10 @@
                           <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in comicNew" :key="item.id">
                               <div class="product__item">
                                   <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }" class="product__item__pic set-bg">
-                                      <img :src="`${API_URL_IMAGE + '/' + item.thumbnail}`" :alt="item.name" />
+                                      <img :src="item.thumbnail" :alt="item.name" />
                                       <div class="ep">{{ item.chapter_latest.name }}</div>
                                       <div class="country" :title="item.country.name">
-                                          <img :src="API_URL_IMAGE + '/' + item.country.avatar" :alt="item.country.name">
+                                          <img :src="item.country.avatar" :alt="item.country.name">
                                       </div>
                                       <div class="comment">
                                           <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -65,10 +65,10 @@
                           <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in comicComingSoon" :key="item.id">
                               <div class="product__item">
                                   <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }" class="product__item__pic set-bg">
-                                      <img :src="`${API_URL_IMAGE + '/' + item.thumbnail}`" :alt="item.name" />
+                                      <img :src="item.thumbnail" :alt="item.name" />
                                       <div class="ep">{{ item.chapter_latest.name }}</div>
                                       <div class="country" :title="item.country.name">
-                                          <img :src="API_URL_IMAGE + '/' + item.country.avatar" :alt="item.country.name">
+                                          <img :src="item.country.avatar" :alt="item.country.name">
                                       </div>
                                       <div class="comment">
                                           <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -107,7 +107,7 @@
 import RightContentComponent from '@/components/RightContentComponent.vue';
 import { mapActions , mapGetters } from 'vuex';
 
-export default {
+export default{
     components: {
         RightContentComponent
     },

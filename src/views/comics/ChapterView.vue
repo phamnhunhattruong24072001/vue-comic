@@ -50,7 +50,7 @@
                   <div class="content-image">
                       <div v-if="loading" class="loading-item-image loading-item"></div>
                       <div v-else class="item-image" v-for="(image, index) in images" :key="image">
-                          <img v-lazy="API_URL_IMAGE + '/' + image" alt="" :key="image + index" />
+                          <img v-lazy="image" alt="" :key="image + index" />
                       </div>
                   </div>
               </div>

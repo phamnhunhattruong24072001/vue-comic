@@ -25,9 +25,9 @@
                         <div class="col-lg-3">
                             <div v-if="loading" class="loading-anime__details__pic loading-item"></div>
                             <div v-else class="anime__details__pic set-bg">
-                                <img :src="API_URL_IMAGE + '/' + comic.thumbnail" alt="" />
+                                <img :src="comic.thumbnail" alt="" />
                                 <div class="country" :title="comic.name">
-                                    <img :src="API_URL_IMAGE + '/' + country.avatar" :alt="country.name" />
+                                    <img :src="country.avatar" :alt="country.name" />
                                 </div>
                                 <div class="comment">
                                     <i class="fa fa-comments"></i> {{ commentTotal }}
@@ -152,7 +152,7 @@
                                     <div class="content">
                                         <div class="card">
                                             <div class="firstinfo">
-                                                <img :src="API_URL_IMAGE + '/' + item.avatar">
+                                                <img :src="item.avatar">
                                                 <div class="profileinfo">
                                                     <h1>{{ item.name }}</h1>
                                                     <h3>{{ item.character_role }}</h3>

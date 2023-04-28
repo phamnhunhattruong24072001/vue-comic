@@ -84,10 +84,10 @@
                                 <div class="product__item">
                                     <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }"
                                         class="product__item__pic set-bg">
-                                        <img :src="`${API_URL_IMAGE + '/' + item.thumbnail}`" :alt="item.name" />
+                                        <img :src="item.thumbnail" :alt="item.name" />
                                         <div class="ep">{{ item.chapter_latest.name }}</div>
                                         <div class="country" :title="item.country.name">
-                                            <img :src="API_URL_IMAGE + '/' + item.country.avatar" :alt="item.category.name" />
+                                            <img :src="item.country.avatar" :alt="item.category.name" />
                                         </div>
                                         <div class="comment">
                                             <i class="fa fa-clock-o" aria-hidden="true"></i>

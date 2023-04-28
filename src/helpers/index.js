@@ -10,7 +10,7 @@ export function formatImage(image)
     if (!image) {
         return 'https://cdn.landesa.org/wp-content/uploads/default-user-image.png';
     } else {
-        return process.env.VUE_APP_API_URL_IMAGE+'/'+image
+        return image
     }
 }
 

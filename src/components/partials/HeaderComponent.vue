@@ -20,7 +20,7 @@
                                     <li v-for="item in resultSearch" :key="item.id">
                                         <router-link :to="{name: 'detail-comic', params: { slug: item.slug} }" @click="search = ''; resultSearch = []">
                                             <div class="img">
-                                                <img :src="API_URL_IMAGE+'/'+item.thumbnail" alt="" />
+                                                <img :src="item.thumbnail" alt="" />
                                             </div>
                                             <div class="content-text">
                                                 <b>{{ item.name }}</b>
