@@ -56,8 +56,8 @@ export default {
     },
     actions: {
         getDataGenre: async ({ commit } , slug) => {
-            await pageApi.getComicByGenre(slug)
-            .then((response) => {
+            try {
+                const response = await pageApi.getComicByGenre(slug);
                 const comics = response.data.data.comics.data;
                 comics.forEach((item) => {
                     item.chapter_latest.created_at = formatDate(item.chapter_latest.created_at);
@@ -68,14 +68,13 @@ export default {
                     genre: response.data.data.genre,
                     lastPage: response.data.data.comics.last_page,
                 });
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error);
-            })
+            }
         },
         getDataCountry: async ({ commit } , slug) => {
-            await pageApi.getComicByCountry(slug)
-            .then((response) => {
+            try {
+                const response = await pageApi.getComicByCountry(slug);
                 const comics = response.data.data.comics.data;
                 comics.forEach((item) => {
                     item.chapter_latest.created_at = formatDate(item.chapter_latest.created_at);
@@ -86,14 +85,13 @@ export default {
                     country: response.data.data.country,
                     lastPage: response.data.data.comics.last_page,
                 });
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error);
-            })
+            }
         },
         getDataCategory: async ({ commit } , slug) => {
-            await pageApi.getComicByCategory(slug)
-            .then((response) => {
+            try {
+                const response = await pageApi.getComicByCategory(slug);
                 const comics = response.data.data.comics.data;
                 comics.forEach((item) => {
                     item.chapter_latest.created_at = formatDate(item.chapter_latest.created_at);
@@ -104,14 +102,13 @@ export default {
                     category: response.data.data.category,
                     lastPage: response.data.data.comics.last_page,
                 });
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error);
-            })
+            }
         },
         getAllComic: async ({ commit }) => {
-            await pageApi.getComic()
-            .then((response) => {
+            try {
+                const response = await pageApi.getComic();
                 const comics = response.data.data.comics.data;
                 comics.forEach((item) => {
                     item.chapter_latest.created_at = formatDate(item.chapter_latest.created_at);
@@ -123,14 +120,13 @@ export default {
                     genres: response.data.data.genres,
                     lastPage: response.data.data.comics.last_page,
                 });
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error);
-            })
+            }
         },
         filterData: async({commit}, formatData) => {
-            await pageApi.filterComicByGenre(formatData)
-            .then((response) => {
+            try {
+                const response = await pageApi.filterComicByGenre(formatData);
                 const comics = response.data.data.comics.data;
                 comics.forEach((comic) => {
                     comic.chapter_latest.created_at = formatDate(comic.chapter_latest.created_at);
@@ -139,10 +135,9 @@ export default {
                     comics,
                     lastPage: response.data.data.comics.last_page
                 })
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error)
-            })
+            }
         }
     }
 }

@@ -30,21 +30,20 @@ export default {
     },
     actions: {
         getData: async ({ commit }) => {
-            await componentApi.getHeader()
-            .then((response) => {
+            try {
+                const response = await componentApi.getHeader();
                 commit('setData', {
                     genres: response.data.data.genres,
                     countries: response.data.data.countries,
                     categories: response.data.data.categories,
                 })
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error);
-            })
+            }
         },
         getDataSearch: async ({commit}, params) => {
-            await componentApi.search(params)
-            .then((response) => {
+            try {
+                const response = await componentApi.search(params);
                 if(params.search.trim().length == 0) {
                     commit('setDataSearch', {
                         resultSearch: [],
@@ -54,10 +53,9 @@ export default {
                         resultSearch: response.data.data.comics,
                     });
                 }
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error);
-            })
+            }
         },
     }
 }

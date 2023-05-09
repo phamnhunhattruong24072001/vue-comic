@@ -32,40 +32,37 @@ export default {
     actions: {
         async login({commit}, formData) {
             commit('setLoggingIn', true);
-            return await authApi.login(formData)
-                .then((response) => {
-                    commit('setUser', response.data.data.user);
-                    localStorage.setItem('user', JSON.stringify(response.data.data.user));
-                    localStorage.setItem('access_token', response.data.data.access_token);
-                })
-                .catch((error) => {
-                    commit('setLoggingError', error)
-                });
+            try {
+                const response = await authApi.login(formData);
+                commit('setUser', response.data.data.user);
+                localStorage.setItem('user', JSON.stringify(response.data.data.user));
+                localStorage.setItem('access_token', response.data.data.access_token);
+            } catch (error) {
+                commit('setLoggingError', error)
+            }
         },
         async register({commit}, formData) {
             commit('setRegisterError', false)
-            return await authApi.register(formData)
-                .then((response) => {
-                    if(response.status == 200) {
-                        console.log(response.status);
-                    }else{
-                        console.log(response.status);
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+            try {
+                const response = await authApi.register(formData);
+                if(response.status == 200) {
+                    console.log(response.status);
+                }else{
+                    console.log(response.status);
+                }
+            } catch (error) {
+                console.log(error)
+            }
         },
         async logout() {
-            return await authApi.logout()
-                .then(() => {
-                    localStorage.removeItem("user");
-                    localStorage.removeItem("access_token");
-                    location.reload();
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            try {
+                await authApi.logout()
+                localStorage.removeItem("user");
+                localStorage.removeItem("access_token");
+                location.reload();
+            } catch (error) {
+                console.log(error)
+            }
         }
     },
 }

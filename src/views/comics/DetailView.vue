@@ -120,6 +120,12 @@
                                     <router-link v-if="latestChapter && latestChapter.slug" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: latestChapter.slug }, }" class="watch-btn ml-2">
                                         <span>Latest Chapter</span>
                                     </router-link>
+                                    <button v-if="!is_favorite && checkLogin" class="follow-btn un" @click="handleAddFollow(userLogin.id, comic.id)">
+                                        <i class="fa fa-eye" aria-hidden="true"></i> Theo dõi 
+                                    </button>
+                                    <button v-else class="follow-btn in" @click="handleRemoveFollow(userLogin.id, comic.id)">
+                                        <i class="fa fa-eye" aria-hidden="true"></i> Hủy theo dõi
+                                    </button>
                                 </div>
                             </div>
                         </div>

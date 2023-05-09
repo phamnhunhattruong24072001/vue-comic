@@ -57,6 +57,18 @@ const routes = [
         path: "/profile",
         name: "profile",
         component: () => import("@/views/auth/ProfileView.vue"),
+        children: [
+            {
+                path: "favorite",
+                name: "favorite",
+                component: () => import("@/views/profile/FavoriteView.vue"),
+            },
+            {
+                path: "follow",
+                name: "follow",
+                component: () => import("@/views/profile/FollowView.vue"),
+            }
+        ]
     },
 ];
 
@@ -64,12 +76,13 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes,
     mode: "history",
+    linkActiveClass: "active"
 });
 
 router.beforeEach((to, from, next) => {
-    const isLogin = localStorage.getItem("user");
+    const isLogin = localStorage.getItem("user") !== null;
     window.scrollTo(0, 0);
-    if ((to.name === "login" && isLogin) || (to.name === "register" && isLogin)) {
+    if ((to.name === "login" && isLogin) || (to.name === "register" && isLogin) || (to.name === "profile" && !isLogin) || (to.name === "favorite" && !isLogin) || (to.name === "follow" && !isLogin)) {
         next({ name: "home" });
     } else {
         next();

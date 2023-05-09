@@ -78,7 +78,7 @@
                                         <router-link :to="{ name: 'home' }">Hot</router-link>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'home' }">Theo giỏi</router-link>
+                                        <router-link :to="{ name: 'follow' }">Theo dõi</router-link>
                                     </li>
                                     <li>
                                         <router-link :to="{ name: 'home' }">Lịch sử</router-link>
@@ -108,7 +108,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'home' }">Yêu thích</router-link>
+                                        <router-link :to="{ name: 'favorite' }">Yêu thích</router-link>
                                     </li>
                                     <li>
                                         <router-link :to="{ name: 'searchComic' }">Tìm truyện</router-link>

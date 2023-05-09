@@ -28,8 +28,8 @@ export default {
     },
     actions: {
         getData: async ({ commit } , { slugComic, slugChapter }) => {
-            await pageApi.getChapter(slugComic, slugChapter)
-            .then((response) => {
+            try {
+                const response = await pageApi.getChapter(slugComic, slugChapter);
                 if(response.data.code == 200) {
                     const images = JSON.parse(response.data.data.chapter.content_image)
                     commit('setData', {
@@ -42,10 +42,9 @@ export default {
                 }else{
                     router.push({name: 'home'})
                 }
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error);
-            })
+            }
         }
     }
 }

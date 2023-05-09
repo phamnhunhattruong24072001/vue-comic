@@ -442,6 +442,10 @@ ol {
   padding: 10px 20px;
 }
 
+.header__menu > ul > li > a.active {
+  color: #e53637;
+}
+
 .header__menu ul li a span {
   position: relative;
   font-size: 17px;

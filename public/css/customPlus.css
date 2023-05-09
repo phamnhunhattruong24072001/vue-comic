@@ -23,6 +23,10 @@
   color: #e53637;
 }
 
+.box-left ul li a.active {
+  color: #e53637;
+}
+
 .box-right{
     display: block;
     width: 100%;

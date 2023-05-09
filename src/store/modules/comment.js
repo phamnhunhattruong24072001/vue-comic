@@ -33,8 +33,8 @@ export default {
     },
     actions: {
         getData: async ({ commit } , { comicId,  page }) => {
-            await commentApi.getComment(comicId, page)
-            .then((response) => {
+            try {
+                const response = await commentApi.getComment(comicId, page);
                 const comments = response.data.data.comments;
                 comments.data.forEach((item) => {
                     item.created_at = formatDate(item.created_at);
@@ -45,21 +45,19 @@ export default {
                     thisPage: page,
                     lastPage: comments.last_page
                 });
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error);
-            })
+            }
         },
         addData: async ({commit}, formData) => {
-            await commentApi.addComment(formData)
-            .then(() => {
+            try {
+                await commentApi.addComment(formData) 
                 commit('setMessage', {
                     message: '',
                 });
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error)
-            })
+            }
         },
         addDataComment({ commit, state }, comment) {
             if (state.thisPage == 1) {

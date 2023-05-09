@@ -14,7 +14,7 @@
            <router-link class="filter__gallery" v-for="item in comicTopViews" :key="item.id"
               :to="{ name: 'detail-comic', params: { slug: item.slug } }">
               <div class="product__sidebar__view__item set-bg mix day years">
-                 <img :src="item.cover_image" alt="" />
+                 <img v-lazy="item.cover_image" alt="" />
                  <div class="ep">{{ item.chapter_latest.name }}</div>
                  <div class="view"><i class="fa fa-eye"></i> {{ item.view }}</div>
                  <h5>
@@ -32,7 +32,7 @@
            <router-link class="product__sidebar__comment__item" v-for="item in comicHighlights" :key="item.id"
               :to="{ name: 'detail-comic', params: { slug: item.slug } }">
               <div class="product__sidebar__comment__item__pic">
-                 <img :src="item.thumbnail" alt="" />
+                 <img v-lazy="item.thumbnail" alt="" />
               </div>
               <div class="product__sidebar__comment__item__text">
                  <ul>

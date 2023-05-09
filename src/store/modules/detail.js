@@ -54,8 +54,8 @@ export default {
     },
     actions: {
         getData: async({commit}, slug) => {
-            await pageApi.getDataDetailPage(slug)
-            .then((response) => {
+            try {
+                const response = await pageApi.getDataDetailPage(slug);
                 if(response.data.code == 200) {
                     const comic = response.data.data.comic;
                     const chapters = comic.chapters;
@@ -83,12 +83,9 @@ export default {
                 }else{
                     router.push({name: 'home'})
                 }
-            }).catch((error) => {
+            } catch (error) {
                 console.log(error)
-            })
+            }
         },
     },
-    module: {
-
-    }
 }

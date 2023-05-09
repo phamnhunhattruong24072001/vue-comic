@@ -7,6 +7,7 @@ const getDefaultState = () => {
         checkLogin: checkLogin(),
         is_favorite: false,
         comic_favorite: [],
+        comic_follow: [],
     }
 }
 
@@ -18,17 +19,23 @@ export default {
     },
     mutations: {
         setData(state, payload) {
-            state.comic_favorite = payload.comic_favorite;
+            state.comic_favorite = payload;
+        },
+        setDataFollow(state, payload) {
+            state.comic_follow = payload;
         },
         setFavorite(state, payload) {
             state.is_favorite = payload.is_favorite;
+        },
+        setFollow(state, payload) {
+            state.is_follow = payload.is_follow;
         }
     },
     actions: {
         checkFavorite: async ({commit, state}, comicId) => {
             if(state.checkLogin){
-                await clientApi.checkFavoriteApi(state.userLogin.id, comicId)
-                .then((response) => {
+                try {
+                    const response = await clientApi.checkFavoriteApi(state.userLogin.id, comicId);
                     if(response.data.code == 200) {
                         commit('setFavorite', {
                             is_favorite: true,
@@ -38,40 +45,84 @@ export default {
                             is_favorite: false,
                         });
                     }
-                })
-                .catch((error) => {
+                } catch (error) {
                     console.log(error)
-                })
+                }
             }
         },
         addFavorite: async ({commit}, data) => {
-            await clientApi.addFavorite(data)
-            .then(() => {
+            try {
+                await clientApi.addFavorite(data)
                 commit('setFavorite', {
-                    is_favorite: true,
+                  is_favorite: true,
                 });
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error)
-            })
+            }
         },
         removeFavorite: async ({commit}, data) => {
-            await clientApi.removeFavorite(data)
-            .then(() => {
+            try {
+                await clientApi.removeFavorite(data);
                 commit('setFavorite', false);
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error)
-            })
+            }
         },
-        getListFavorite: async ({commit}, clientId) => {
-            await clientApi.getListFavorite(clientId)
-            .then((response) => {
-                commit('setData', response.data.data.comics);
-            })
-            .catch((error) => {
+        getListFavorite: async ({commit, state}) => {
+            if(state.checkLogin) {
+                try {
+                    const response = await clientApi.getListFavorite(state.userLogin.id);
+                    commit('setData', response.data.data.clients.favorites);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        },
+        checkFollow: async ({commit, state}, comicId) => {
+            if(state.checkLogin){
+                try {
+                    const response = await clientApi.checkFollowApi(state.userLogin.id, comicId);
+                    if(response.data.code == 200) {
+                        commit('setFollow', {
+                            is_follow: true,
+                        });
+                    }else{
+                        commit('setFollow', {
+                            is_follow: false,
+                        });
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        },
+        addFollow: async ({commit}, data) => {
+            try {
+                await clientApi.addFollow(data)
+                commit('setFollow', {
+                  is_follow: true,
+                });
+            } catch (error) {
                 console.log(error)
-            })
+            }
+        },
+        removeFollow: async ({commit}, data) => {
+            try {
+                await clientApi.removeFollow(data);
+                commit('setFollow', false);
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        getListFollow: async ({commit, state}) => {
+            if(state.checkLogin) {
+                try {
+                    const response = await clientApi.getListFollow(state.userLogin.id);
+                    commit('setDataFollow', response.data.data.clients.follows);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
         },
     },
 }

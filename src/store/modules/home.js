@@ -20,9 +20,9 @@ export default {
         },
     },
     actions: {
-        getData({commit}) {
-            pageApi.getDataHomePage()
-            .then((response) => {
+        getData: async ({commit}) => {
+            try {
+                const response = await pageApi.getDataHomePage();
                 const comic_new = response.data.data.comic_new;
                 const comic_coming_soon = response.data.data.comic_coming_soon
                 comic_new.forEach(item => {
@@ -33,9 +33,9 @@ export default {
                 });
                 commit('setComicNew', comic_new)
                 commit('setComicCommingSoon', comic_coming_soon)
-            }).catch((error) => {
+            } catch (error) {
                 console.log(error)
-            })
+            }
         }
     },
 }

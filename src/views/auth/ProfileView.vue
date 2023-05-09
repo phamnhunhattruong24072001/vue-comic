@@ -39,8 +39,8 @@
                 <div class="col-lg-3">
                     <article class="box-left">
                         <ul>
-                            <li><a href="">Yêu thích</a></li>
-                            <li><a href="">Theo giõi</a></li>
+                            <li><router-link :to="{name: 'favorite'}" exact-active-class="active">Yêu thích</router-link></li>
+                            <li><router-link :to="{name: 'follow'}">Theo giõi</router-link></li>
                             <li><a href="">Lịch sử</a></li>
                             <li><a href="">Đánh giá</a></li> 
                             <li><a href="">Bình luận</a></li>
@@ -49,45 +49,10 @@
                 </div>
                 <div class="col-lg-9">
                     <article class="box-right">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="content-comic-profile">
-                                    <div class="content-item-image">
-                                        <img src="http://localhost:8000/storage/comics/168136840823.png" alt="">
-                                    </div>
-                                    <div class="content-item-text">
-                                        <span class="name">Solo Leveling</span>
-                                        <span class="icon"><i class="fa fa-heart" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                            </div>   
-                            <div class="col-lg-4">
-                                <div class="content-comic-profile">
-                                    <div class="content-item-image">
-                                        <img src="http://localhost:8000/storage/comics/168136840823.png" alt="">
-                                    </div>
-                                    <div class="content-item-text">
-                                        <span class="name">Solo Leveling</span>
-                                        <span class="icon"><i class="fa fa-heart" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                            </div>   
-                            <div class="col-lg-4">
-                                <div class="content-comic-profile">
-                                    <div class="content-item-image">
-                                        <img src="http://localhost:8000/storage/comics/168136840823.png" alt="">
-                                    </div>
-                                    <div class="content-item-text">
-                                        <span class="name">Solo Leveling</span>
-                                        <span class="icon"><i class="fa fa-heart" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
+                        <router-view></router-view>
                     </article>
                 </div>
             </div>
         </div>
-        
     </section>
 </template>
