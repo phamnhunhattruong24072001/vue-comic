@@ -72,19 +72,19 @@
                             <nav class="header__menu mobile-menu">
                                 <ul>
                                     <li>
-                                        <router-link :to="{ name: 'home' }">Trang chủ</router-link>
+                                        <router-link :to="{ name: 'home' }">{{ PAGE_NAME.HOME }}</router-link>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'home' }">Hot</router-link>
+                                        <router-link :to="{ name: 'home' }">{{ PAGE_NAME.HOT }}</router-link>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'follow' }">Theo dõi</router-link>
+                                        <router-link :to="{ name: 'follow' }">{{ PAGE_NAME.FOLLOW }}</router-link>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'home' }">Lịch sử</router-link>
+                                        <router-link :to="{ name: 'home' }">{{ PAGE_NAME.HISTORY }}</router-link>
                                     </li>
                                     <li class="header__menu-min">
-                                        <router-link :to="{ name: 'country', params: { slug: '' } }">Quốc gia <span class="arrow_carrot-down"></span></router-link>
+                                        <router-link :to="{ name: 'country', params: { slug: '' } }">{{ PAGE_NAME.COUNTRY }} <span class="arrow_carrot-down"></span></router-link>
                                         <ul class="dropdown-min">
                                             <li v-for="country in countries" :key="country.id">
                                                 <router-link :to="{ name: 'country', params: { slug: country.slug } }">{{ country.name}}</router-link>
@@ -92,7 +92,7 @@
                                         </ul>
                                     </li>
                                     <li class="header__menu-min">
-                                        <router-link :to="{ name: 'category', params: { slug: '' } }">Danh mục <span class="arrow_carrot-down"></span></router-link>
+                                        <router-link :to="{ name: 'category', params: { slug: '' } }">{{ PAGE_NAME.CATEGORY }} <span class="arrow_carrot-down"></span></router-link>
                                         <ul class="dropdown-min">
                                             <li v-for="category in categories" :key="category.id">
                                                 <router-link :to="{ name: 'category', params: { slug: category.slug } }">{{ category.name}}</router-link>
@@ -100,7 +100,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'genre', params: { slug: '' } }">Thể loại <span class="arrow_carrot-down"></span></router-link>
+                                        <router-link :to="{ name: 'genre', params: { slug: '' } }">{{ PAGE_NAME.GENRE }} <span class="arrow_carrot-down"></span></router-link>
                                         <ul class="dropdown">
                                             <li v-for="genre in genres" :key="genre.id">
                                                 <router-link :to="{ name: 'genre', params: { slug: genre.slug } }">{{ genre.name}}</router-link>
@@ -108,10 +108,10 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'favorite' }">Yêu thích</router-link>
+                                        <router-link :to="{ name: 'favorite' }">{{ PAGE_NAME.FAVORITE }}</router-link>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'searchComic' }">Tìm truyện</router-link>
+                                        <router-link :to="{ name: 'searchComic' }">{{ PAGE_NAME.SEARCH_COMIC }}</router-link>
                                     </li>
                                 </ul>
                             </nav>
@@ -128,6 +128,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import { PAGE_NAME } from './const'
 
 function debounce(func, wait, immediate) {
     let timeout;
@@ -146,13 +147,14 @@ function debounce(func, wait, immediate) {
 }
 
 export default {
-    name: "HeaderComponent",
+    name: "HeaderLayout",
     data() {
         return {
             BASE_URL: process.env.VUE_APP_BASE_URL,
             API_URL: process.env.VUE_APP_API_URL,
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
             search: "",
+            PAGE_NAME,
         };
     },
     computed: {

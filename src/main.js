@@ -7,7 +7,7 @@ import VueLazyload from "vue-lazyload";
 import Paginate from "vuejs-paginate-next";
 import store from "./store";
 
-import HeaderComponent from "@/components/partials/HeaderComponent.vue";
+import HeaderLayout from "@/components/partials/HeaderLayout";
 import FooterComponent from "@/components/partials/FooterComponent.vue";
 import CommentComponent from "@/components/CommentComponent.vue";
 import RightContentComponent from "@/components/RightContentComponent.vue";
@@ -24,7 +24,7 @@ app.use(router);
 app.use(store);
 
 app
-    .component("HeaderComponent", HeaderComponent)
+    .component("HeaderLayout", HeaderLayout)
     .component("FooterComponent", FooterComponent)
     .component("CommentComponent", CommentComponent)
     .component("RightContentComponent", RightContentComponent)
