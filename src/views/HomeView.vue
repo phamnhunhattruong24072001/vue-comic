@@ -18,34 +18,7 @@
                           </div>
                       </div>
                       <div class="row">
-                          <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in comicNew" :key="item.id">
-                              <div class="product__item">
-                                  <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }" class="product__item__pic set-bg">
-                                      <img v-lazy="item.thumbnail" :alt="item.name" />
-                                      <div class="ep">{{ item.chapter_latest.name }}</div>
-                                      <div class="country" :title="item.country.name">
-                                          <img v-lazy="item.country.avatar" :alt="item.country.name">
-                                      </div>
-                                      <div class="comment">
-                                          <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                          {{ item.chapter_latest.created_at }}
-                                      </div>
-                                      <div class="view">
-                                          <i class="fa fa-eye"></i> {{ item.view }}
-                                      </div>
-                                  </router-link>
-                                  <div class="product__item__text">
-                                      <h5>
-                                          <router-link :to="{name: 'detail-comic',params: { slug: item.slug },}">{{ item.name }}</router-link>
-                                      </h5>
-                                      <ul>
-                                          <li v-for="genre in item.genres" :key="genre.id">
-                                              {{ genre.name }}
-                                          </li>
-                                      </ul>
-                                  </div>
-                              </div>
-                          </div>
+                          <ComicCart v-for="item in comicNew" :item="item" :key="item.id"></ComicCart>
                       </div>
                   </div>
                   <div class="popular__product">
@@ -62,34 +35,7 @@
                           </div>
                       </div>
                       <div class="row">
-                          <div class="col-lg-4 col-md-6 col-sm-6" v-for="item in comicComingSoon" :key="item.id">
-                              <div class="product__item">
-                                  <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }" class="product__item__pic set-bg">
-                                      <img v-lazy="item.thumbnail" :alt="item.name" />
-                                      <div class="ep">{{ item.chapter_latest.name }}</div>
-                                      <div class="country" :title="item.country.name">
-                                          <img v-lazy="item.country.avatar" :alt="item.country.name">
-                                      </div>
-                                      <div class="comment">
-                                          <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                          {{ item.chapter_latest.created_at }}
-                                      </div>
-                                      <div class="view">
-                                          <i class="fa fa-eye"></i> {{ item.view }}
-                                      </div>
-                                  </router-link>
-                                  <div class="product__item__text">
-                                      <h5>
-                                          <router-link :to="{name: 'detail-comic',params: { slug: item.slug },}">{{ item.name }}</router-link>
-                                      </h5>
-                                      <ul>
-                                          <li v-for="genre in item.genres" :key="genre.id">
-                                              {{ genre.name }}
-                                          </li>
-                                      </ul>
-                                  </div>
-                              </div>
-                          </div>
+                          <comic-cart v-for="item in comicComingSoon" :item="item" :key="item.id"></comic-cart>
                       </div>
                   </div>
               </div>
@@ -103,13 +49,16 @@
 </template>
 
 <script>
-// import axios from "axios";
+// Component
 import RightContentComponent from '@/components/RightContentComponent.vue';
+import ComicCart from '@/components/modules/ComicCart';
+// Vuex
 import { mapActions , mapGetters } from 'vuex';
 
 export default{
     components: {
-        RightContentComponent
+        RightContentComponent,
+        ComicCart
     },
     data() {
         return {
