@@ -1,5 +1,5 @@
 <template>
-    <HeaderLayout />
+    <header-layout/>
     <router-view/>
-    <FooterComponent />
+    <footer-layout/>
 </template>

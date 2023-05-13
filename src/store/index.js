@@ -1,15 +1,17 @@
 import { createStore } from 'vuex';
+import comic from './comic';
+import layout from './layout';
+import client from './client';
+import auth from './auth';
+import comment from './comment';
 
 const store = createStore({
     modules: {
-        auth: require('@/store/modules/auth').default,
-        home: require('@/store/modules/home').default,
-        detail: require('@/store/modules/detail').default,
-        comment: require('@/store/modules/comment').default,
-        comic: require('@/store/modules/comic').default,
-        chapter: require('@/store/modules/chapter').default,
-        header: require('@/store/modules/header').default,
-        client: require('@/store/modules/client').default,
+        auth,
+        client,
+        layout,
+        comic,
+        comment
     }
 });
 

@@ -80,7 +80,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const isLogin = localStorage.getItem("user") !== null;
+    const isLogin = localStorage.getItem("user");
     window.scrollTo(0, 0);
     if ((to.name === "login" && isLogin) || (to.name === "register" && isLogin) || (to.name === "profile" && !isLogin) || (to.name === "favorite" && !isLogin) || (to.name === "follow" && !isLogin)) {
         next({ name: "home" });

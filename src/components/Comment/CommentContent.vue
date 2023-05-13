@@ -51,7 +51,7 @@ import Pusher from 'pusher-js'
 import { mapActions, mapState }  from 'vuex';
 
 export default {
-    name: 'CommentComponent',
+    name: 'CommentContent',
     props: {
         comic_id: {
             type: Number,

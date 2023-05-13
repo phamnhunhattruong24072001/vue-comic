@@ -189,7 +189,7 @@
                     </div>
                     <div class="col-lg-8">
                         <div v-if="loading || loadingItem" class="loading-comment loading-item loading-item__loader"></div>
-                        <comment-component v-else :comic_id="comic.id"></comment-component>
+                        <comment-content v-else :comic_id="comic.id"></comment-content>
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <div v-if="loading || loadingItem" class="loading-anime__details__sidebar loading-item loading-item__loader"></div>
@@ -216,12 +216,12 @@
 </template>
 
 <script>
-import CommentComponent from '@/components/CommentComponent.vue';
+import CommentContent from '@/components/Comment';
 import { mapActions, mapState, mapGetters }  from 'vuex';
 
 export default {
     components: {
-        CommentComponent,
+        CommentContent,
     },
     name: "DetailView",
     props: {
@@ -272,7 +272,7 @@ export default {
         callActionGetDetail(slug) {
             this.getData(slug)
                 .then(() => {
-                    this.handleCheckFavorite(this.comic.id);
+                    this.handleCheckFavorite(1);
                     setTimeout(() => {
                         this.loading = false;
                     }, 300)

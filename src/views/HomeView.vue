@@ -40,7 +40,7 @@
                   </div>
               </div>
               <div class="col-lg-4 col-md-6 col-sm-8">
-                  <right-content-component></right-content-component>
+                  <right-content></right-content>
               </div>
           </div>
       </div>
@@ -50,14 +50,14 @@
 
 <script>
 // Component
-import RightContentComponent from '@/components/RightContentComponent.vue';
-import ComicCart from '@/components/modules/ComicCart';
+import RightContent from '@/components/Layout/RightContent';
+import ComicCart from '@/components/Common/ComicCart';
 // Vuex
 import { mapActions , mapGetters } from 'vuex';
 
 export default{
     components: {
-        RightContentComponent,
+        RightContent,
         ComicCart
     },
     data() {

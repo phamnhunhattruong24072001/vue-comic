@@ -88,7 +88,7 @@
                 </paginate>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
-                <right-content-component></right-content-component>
+                <right-content></right-content>
             </div>
         </div>
     </div>
@@ -98,14 +98,14 @@
 
 <script>
 // component
-import ComicCart from '@/components/modules/ComicCart';
-import RightContentComponent from '@/components/RightContentComponent.vue';
+import ComicCart from '@/components/Common/ComicCart';
+import RightContent from '@/components/Layout/RightContent';
 // vuex
 import { mapActions, mapState }  from 'vuex';
 
 export default {
     components: {
-        RightContentComponent,
+        RightContent,
         ComicCart
     },
     props: {
@@ -120,10 +120,10 @@ export default {
         };
     },
     computed: {
-        ...mapState('comic', ['comics', 'filter', 'lastPage', 'category']),
+        ...mapState('page', ['comics', 'filter', 'lastPage', 'category']),
     },
     methods: {
-        ...mapActions('comic', ['getDataCategory', 'filterData']),
+        ...mapActions('page', ['getDataCategory', 'filterData']),
         loadData: function(slug) 
         {
             this.slug_param = slug;
