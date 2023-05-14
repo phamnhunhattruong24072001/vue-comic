@@ -56,17 +56,17 @@ const routes = [
     {
         path: "/profile",
         name: "profile",
-        component: () => import("@/views/auth/ProfileView.vue"),
+        component: () => import("@/views/user/ProfileView.vue"),
         children: [
             {
                 path: "favorite",
                 name: "favorite",
-                component: () => import("@/views/profile/FavoriteView.vue"),
+                component: () => import("@/views/user/tabs/FavoriteView.vue"),
             },
             {
                 path: "follow",
                 name: "follow",
-                component: () => import("@/views/profile/FollowView.vue"),
+                component: () => import("@/views/user/tabs/FollowView.vue"),
             }
         ]
     },

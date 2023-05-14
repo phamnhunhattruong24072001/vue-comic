@@ -1,9 +1,9 @@
 import { createStore } from 'vuex';
-import comic from './comic';
-import layout from './layout';
-import client from './client';
-import auth from './auth';
-import comment from './comment';
+import comic from './modules/comic';
+import layout from './modules/layout';
+import client from './modules/client';
+import auth from './modules/auth';
+import comment from './modules/comment';
 
 const store = createStore({
     modules: {
