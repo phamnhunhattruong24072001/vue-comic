@@ -17,7 +17,7 @@
     <section class="product-page spad">
         <div class="container">
             <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-8 col-sm-12">
+                <div class="col-12">
                     <div class="product__page__content">
                         <div class="product__page__title">
                             <div class="row">
@@ -105,35 +105,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-3 col-md-4 col-sm-6" v-for="item in comics" :key="item.id">
-                                <div class="product__item">
-                                    <router-link :to="{ name: 'detail-comic', params: { slug: item.slug } }"
-                                        class="product__item__pic set-bg">
-                                        <img :src="item.thumbnail" :alt="item.name" />
-                                        <div class="ep">{{ item.chapter_latest.name }}</div>
-                                        <div class="country" :title="item.country.name">
-                                            <img :src="item.country.avatar" :alt="item.country.name" />
-                                        </div>
-                                        <div class="comment">
-                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                            {{ item.chapter_latest.created_at }}
-                                        </div>
-                                        <div class="view">
-                                            <i class="fa fa-eye"></i> {{ item.view }}
-                                        </div>
-                                    </router-link>
-                                    <div class="product__item__text">
-                                        <h5>
-                                            <router-link :to="{ name: 'detail-comic', params: { slug: item.slug }, }">{{ item.name}}</router-link>
-                                        </h5>
-                                        <ul>
-                                            <li v-for="genre in item.genres" :key="genre.id">
-                                                {{ genre.name }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            <comic-cart class="col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="item in comics" :item="item" :key="item.id"></comic-cart>
                         </div>
                     </div>
                     <paginate :page-count="lastPage" :click-handler="handleFilterData" :prev-text="'Prev'" :next-text="'Next'"
@@ -148,6 +120,7 @@
   
   <script>
   import { mapActions, mapState }  from 'vuex';
+  import ComicCart from '@/components/Common/ComicCart';
   
   export default {
       data() {
@@ -157,11 +130,14 @@
               API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
           };
       },
+      components: {
+        ComicCart,
+      },
       computed: {
-          ...mapState('comic', ['comics', 'filter', 'lastPage']),
+          ...mapState('page', ['comics', 'filter', 'lastPage']),
       },
       methods: {
-          ...mapActions('comic', ['getAllComic', 'filterData']),
+          ...mapActions('page', ['getAllComic', 'filterData']),
           loadData: function() 
           {
               this.getAllComic();

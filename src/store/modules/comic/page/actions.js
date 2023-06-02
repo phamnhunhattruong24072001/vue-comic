@@ -5,15 +5,15 @@ export default {
     getDataGenre: async ({ commit } , slug) => {
         try {
             const response = await comicService.getComicByGenre(slug);
-            const comics = response.data.data.comics.data;
+            const comics = response.comics.data;
             comics.forEach((item) => {
                 item.chapter_latest.created_at = formatDate(item.chapter_latest.created_at);
             });
             commit('setDataGenre', {
                 comics: comics,
-                genres: response.data.data.genres,
-                genre: response.data.data.genre,
-                lastPage: response.data.data.comics.last_page,
+                genres: response.genres,
+                genre: response.genre,
+                lastPage: response.comics.last_page,
             });
         } catch (error) {
             console.log(error);
@@ -22,15 +22,15 @@ export default {
     getDataCountry: async ({ commit } , slug) => {
         try {
             const response = await comicService.getComicByCountry(slug);
-            const comics = response.data.data.comics.data;
+            const comics = response.comics.data;
             comics.forEach((item) => {
                 item.chapter_latest.created_at = formatDate(item.chapter_latest.created_at);
             });
             commit('setDataCountry', {
                 comics: comics,
-                countries: response.data.data.countries,
-                country: response.data.data.country,
-                lastPage: response.data.data.comics.last_page,
+                countries: response.countries,
+                country: response.country,
+                lastPage: response.comics.last_page,
             });
         } catch (error) {
             console.log(error);
@@ -39,15 +39,15 @@ export default {
     getDataCategory: async ({ commit } , slug) => {
         try {
             const response = await comicService.getComicByCategory(slug);
-            const comics = response.data.data.comics.data;
+            const comics = response.comics.data;
             comics.forEach((item) => {
                 item.chapter_latest.created_at = formatDate(item.chapter_latest.created_at);
             });
             commit('setDataCategory', {
                 comics: comics,
-                categories: response.data.data.categories,
-                category: response.data.data.category,
-                lastPage: response.data.data.comics.last_page,
+                categories: response.categories,
+                category: response.category,
+                lastPage: response.comics.last_page,
             });
         } catch (error) {
             console.log(error);
@@ -56,16 +56,16 @@ export default {
     getAllComic: async ({ commit }) => {
         try {
             const response = await comicService.getComic();
-            const comics = response.data.data.comics.data;
+            const comics = response.comics.data;
             comics.forEach((item) => {
                 item.chapter_latest.created_at = formatDate(item.chapter_latest.created_at);
             });
             commit('setDataAllComic', {
                 comics: comics,
-                categories: response.data.data.categories,
-                countries: response.data.data.countries,
-                genres: response.data.data.genres,
-                lastPage: response.data.data.comics.last_page,
+                categories: response.categories,
+                countries: response.countries,
+                genres: response.genres,
+                lastPage: response.comics.last_page,
             });
         } catch (error) {
             console.log(error);
@@ -74,13 +74,13 @@ export default {
     filterData: async({commit}, formatData) => {
         try {
             const response = await comicService.filterComicByGenre(formatData);
-            const comics = response.data.data.comics.data;
+            const comics = response.comics.data;
             comics.forEach((comic) => {
                 comic.chapter_latest.created_at = formatDate(comic.chapter_latest.created_at);
             });
             commit('setDataFilter', {
                 comics,
-                lastPage: response.data.data.comics.last_page
+                lastPage: response.comics.last_page
             })
         } catch (error) {
             console.log(error)

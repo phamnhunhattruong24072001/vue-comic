@@ -1,6 +1,6 @@
 export const PAGE_NAME = {
     HOME : "Trang chủ",
-    HOT : "Hot",
+    HOT : "Nổi bật",
     FAVORITE : "Yêu thích",
     HISTORY : "Lịch sử",
     COUNTRY : "Quốc gia",

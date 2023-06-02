@@ -7,7 +7,7 @@
                     <div class="col-lg-12">
                         <div v-if="loading" class="loading-breadcrumb-option loading-item"></div>
                         <div v-else class="breadcrumb__links">
-                            <router-link :to="{ name: 'home' }">Home</router-link>
+                            <router-link :to="{ name: 'home' }">Trang chủ</router-link>
                             <router-link :to="{ name: 'home' }">{{ category.name }}
                             </router-link>
                             <span>{{ comic.name }}</span>
@@ -41,10 +41,10 @@
                             <div v-if="loading" class="loading-anime__details__text loading-item"></div>
                             <div v-else class="anime__details__text">
                                 <div class="anime__details__title">
-                                    <h3>{{ comic.name }}</h3>
+                                    <h4>{{ comic.name }}</h4>
                                     <span>{{ comic.name_another }} </span>
                                 </div>
-                                <div class="anime__details__rating">
+                                <!-- <div class="anime__details__rating">
                                     <div class="rating">
                                         <a href="#">
                                             <i class="fa fa-star"></i>
@@ -63,36 +63,36 @@
                                         </a>
                                     </div>
                                     <span>1.029 Votes</span>
-                                </div>
+                                </div> -->
                                 <p></p>
                                 <div class="anime__details__widget">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <ul>
                                                 <li>
-                                                    <span>Country:</span> {{ country.name }}
+                                                    <span>Quốc gia:</span> {{ country.name }}
                                                 </li>
                                                 <li>
-                                                    <span>Category:</span> {{ category.name }}
+                                                    <span>Danh mục:</span> {{ category.name }}
                                                 </li>
                                                 <li>
                                                     <span>Date aired:</span> Oct 02, 2019 to ?
                                                 </li>
                                                 <li>
-                                                    <span>Status:</span> Airing
+                                                    <span>Trạng thái:</span> Airing
                                                 </li>
                                                 <li>
-                                                    <span>Genre:</span>
+                                                    <span>Thể loại:</span>
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <ul>
                                                 <li>
-                                                    <span>Chapter:</span> {{ chapters.length }}
+                                                    <span>Chương:</span> {{ chapters.length }}
                                                 </li>
                                                 <li>
-                                                    <span>Rating:</span> 8.5 / 161 times
+                                                    <span>Xếp hạng:</span> 8.5 / 161 times
                                                 </li>
                                                 <li>
                                                     <span>Duration:</span> 24 min/ep
@@ -101,80 +101,91 @@
                                                     <span>Quality:</span> HD
                                                 </li>
                                                 <li>
-                                                    <span>Views:</span> {{ comic.view }}
+                                                    <span>Lượt xem:</span> {{ comic.view }}
                                                 </li>
                                             </ul>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="anime__details__short-desc">
+                                                {{ comic.short_desc ?? "Đang cập nhật......." }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="anime__details__btn">
-                                    <button v-if="!is_favorite && checkLogin" class="follow-btn un" @click="handleAddFavorite(userLogin.id, comic.id)">
+                                    <div v-if="checkLogin">
+                                        <button v-if="!is_favorite" class="follow-btn un" @click="handleAddFavorite(userLogin.id, comic.id)">
                                         <i class="fa fa-heart-o"></i> Yêu thích 
-                                    </button>
-                                    <button v-else class="follow-btn in" @click="handleRemoveFavorite(userLogin.id, comic.id)">
-                                        <i class="fa fa-heart-o"></i> Hủy yêu thích 
-                                    </button>
+                                        </button>
+                                        <button v-else class="follow-btn in" @click="handleRemoveFavorite(userLogin.id, comic.id)">
+                                            <i class="fa fa-heart-o"></i> Hủy yêu thích 
+                                        </button>
+                                    </div>
                                     <router-link v-if="newChapter && newChapter.slug" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: newChapter.slug }, }" class="watch-btn">
-                                        <span>New Chapter</span>
+                                        <span>Mới nhất</span>
                                     </router-link>
-                                    <router-link v-if="latestChapter && latestChapter.slug" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: latestChapter.slug }, }" class="watch-btn ml-2">
-                                        <span>Latest Chapter</span>
+                                    <router-link v-if="latestChapter && latestChapter.slug" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: latestChapter.slug }, }" class="watch-btn">
+                                        <span>Cũ nhất</span>
                                     </router-link>
-                                    <button v-if="!is_favorite && checkLogin" class="follow-btn un" @click="handleAddFollow(userLogin.id, comic.id)">
+                                    <div v-if="checkLogin">
+                                        <button v-if="!is_favorite && checkLogin" class="follow-btn un" @click="handleAddFollow(userLogin.id, comic.id)">
                                         <i class="fa fa-eye" aria-hidden="true"></i> Theo dõi 
-                                    </button>
-                                    <button v-else class="follow-btn in" @click="handleRemoveFollow(userLogin.id, comic.id)">
-                                        <i class="fa fa-eye" aria-hidden="true"></i> Hủy theo dõi
-                                    </button>
+                                        </button>
+                                        <button v-else class="follow-btn in" @click="handleRemoveFollow(userLogin.id, comic.id)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i> Hủy theo dõi
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12 col-md-12">
+                    <div class="col-lg-8 col-md-12">
                         <div v-if="loading" class="loading-anime__details__episodes loading-item"></div>
                         <div v-else class="anime__details__episodes">
                             <div class="section-title">
-                                <h5>Chapters</h5>
+                                <h5>Chương truyện</h5>
                             </div>
-                            <div v-if="showChapter">
+                            <div v-if="showChapter" class="anime__details__episodes__chapters">
                                 <router-link v-for="chapter in chapters" :key="chapter.id" :to="{ name: 'chapter', params: { slug: comic.slug, chapter: chapter.slug }, }">
                                     {{ chapter.name }}
                                 </router-link>
                             </div>
-                            <div v-else>
-                                <div class="alert alert-primary" role="alert"> Đang cập nhật .... </div>
+                            <div v-else class="anime__details__episodes__chapters">
+                                <div class="alert alert-primary d-block" role="alert"> Đang cập nhật .... </div>
                             </div>
                         </div>
                         
                         <div v-if="loading" class="loading-anime__details__figures loading-item"></div>
                         <div v-else class="anime__details__figures">
                             <div class="section-title">
-                                <h5>Figures</h5>
+                                <h5>Nhân vật</h5>
                             </div>
-                            <div class="row" v-if="figures.length > 0">
-                                <div class="col-lg-4" v-for="item in figures" :key="item.id">
-                                    <div class="content">
-                                        <div class="card">
-                                            <div class="firstinfo">
-                                                <img :src="item.avatar">
-                                                <div class="profileinfo">
-                                                    <h1>{{ item.name }}</h1>
-                                                    <h3>{{ item.character_role }}</h3>
-                                                    <!-- <p class="bio">{{ item.short_desc }}</p> -->
-                                                    <div class="profilefolow">
-                                                        <span>
-                                                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                                                        </span>
-                                                        <span>
-                                                            <i class="fa fa-heart" aria-hidden="true"></i>
-                                                        </span>
-                                                        <span>
-                                                            <a href="">
-                                                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                                            </a>
-                                                        </span>
+                            <div class="anime__details__figures-list" v-if="figures.length > 0">
+                                <div class="row">
+                                    <div class="col-lg-4" v-for="item in figures" :key="item.id">
+                                        <div class="content">
+                                            <div class="card">
+                                                <div class="firstinfo">
+                                                    <img :src="item.avatar">
+                                                    <div class="profileinfo">
+                                                        <h1>{{ item.name }}</h1>
+                                                        <h3>{{ item.character_role }}</h3>
+                                                        <!-- <p class="bio">{{ item.short_desc }}</p> -->
+                                                        <div class="profilefolow">
+                                                            <span>
+                                                                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                                            </span>
+                                                            <span>
+                                                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                                            </span>
+                                                            <span>
+                                                                <a href="">
+                                                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                                                </a>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,17 +193,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" v-else>
-                                <div class="ml-3 alert alert-primary" role="alert"> Đang cập nhật .... </div>
+                            <div class="anime__details__figures-list" v-else>
+                                <div class="alert alert-primary d-block" role="alert"> Đang cập nhật .... </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-8">
-                        <div v-if="loading || loadingItem" class="loading-comment loading-item loading-item__loader"></div>
-                        <comment-content v-else :comic_id="comic.id"></comment-content>
-                    </div>
                     <div class="col-lg-4 col-md-4">
-                        <div v-if="loading || loadingItem" class="loading-anime__details__sidebar loading-item loading-item__loader"></div>
+                        <div v-if="loading" class="loading-anime__details__sidebar loading-item loading-item__loader"></div>
                         <div v-else class="anime__details__sidebar">
                             <div class="section-title">
                                 <h5>Có thể bạn thích</h5>
@@ -207,6 +214,10 @@
                                 </h5>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div v-if="loading || loadingItem" class="loading-comment loading-item loading-item__loader"></div>
+                        <comment-content v-else :comic_id="comic.id"></comment-content>
                     </div>
                 </div>
             </div>
