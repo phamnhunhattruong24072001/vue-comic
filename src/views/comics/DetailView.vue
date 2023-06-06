@@ -128,7 +128,7 @@
                                         <span>Cũ nhất</span>
                                     </router-link>
                                     <div v-if="checkLogin">
-                                        <button v-if="!is_favorite && checkLogin" class="follow-btn un" @click="handleAddFollow(userLogin.id, comic.id)">
+                                        <button v-if="!is_follow && checkLogin" class="follow-btn un" @click="handleAddFollow(userLogin.id, comic.id)">
                                         <i class="fa fa-eye" aria-hidden="true"></i> Theo dõi 
                                         </button>
                                         <button v-else class="follow-btn in" @click="handleRemoveFollow(userLogin.id, comic.id)">
@@ -264,7 +264,8 @@ export default {
             ...mapState('client',[
                 'checkLogin',
                 'userLogin',
-                'is_favorite'
+                'is_favorite',
+                'is_follow'
             ]),
         ...mapGetters('detail', ['figures'])
     },
@@ -279,11 +280,12 @@ export default {
     },
     methods: {
         ...mapActions('detail', ['getData']),
-        ...mapActions('client', ['checkFavorite', 'addFavorite', 'removeFavorite']),
+        ...mapActions('client', ['checkFavorite', 'addFavorite', 'removeFavorite', 'checkFollow', 'addFollow', 'removeFollow']),
         callActionGetDetail(slug) {
             this.getData(slug)
                 .then(() => {
-                    this.handleCheckFavorite(1);
+                    this.checkFavorite(this.slug_comic);
+                    this.checkFollow(this.slug_comic);
                     setTimeout(() => {
                         this.loading = false;
                     }, 300)
@@ -296,9 +298,6 @@ export default {
                 }, 200)
             }
         },
-        handleCheckFavorite(comicId) {
-            this.checkFavorite(comicId)
-        },
         handleAddFavorite(clientId, comicId) {
             this.addFavorite({
                 client_id: clientId,
@@ -307,6 +306,18 @@ export default {
         },
         handleRemoveFavorite(clientId, comicId) {
             this.removeFavorite({
+                client_id: clientId,
+                comic_id: comicId,
+            });
+        },
+        handleAddFollow(clientId, comicId) {
+            this.addFollow({
+                client_id: clientId,
+                comic_id: comicId,
+            });
+        },
+        handleRemoveFollow(clientId, comicId) {
+            this.removeFollow({
                 client_id: clientId,
                 comic_id: comicId,
             });

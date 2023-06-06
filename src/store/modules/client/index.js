@@ -8,6 +8,7 @@ const getDefaultState = () => {
         userLogin: userLogin(),
         checkLogin: checkLogin(),
         is_favorite: false,
+        is_follow: false,
         comic_favorite: [],
         comic_follow: [],
     }

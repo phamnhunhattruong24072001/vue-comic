@@ -17,10 +17,9 @@ export default {
         const response = await axiosService.get(`/client/get-list-favorite/${clientId}`);
         return get(response, "data", []);
     },
-    async checkFavoriteApi(clientId, $comcicId)
+    async checkFavoriteApi(clientId, $slugComic)
     {
-        const response = await axiosService.get(`/client/check-favorite/${clientId}/${$comcicId}`);
-        return get(response, "data", []);
+        return await axiosService.get(`/client/check-favorite/${clientId}/${$slugComic}`);
     },
 
     async addFollow(data)
@@ -38,9 +37,8 @@ export default {
         const response = await axiosService.get(`/client/get-list-follow/${clientId}`);
         return get(response, "data", []);
     },
-    async checkFollowApi(clientId, $comcicId)
+    async checkFollowApi(clientId, $slugComic)
     {
-        const response = await axiosService.get(`/client/check-follow/${clientId}/${$comcicId}`);
-        return get(response, "data", []);
+        return await axiosService.get(`/client/check-follow/${clientId}/${$slugComic}`);
     }
 }

@@ -4,7 +4,7 @@ import actions from "./actions";
 
 const state = {
     user: {},
-    isLoggingIn: false,
+    isLoggingIn: null,
     loginError: null,
     registerError: null,
 }

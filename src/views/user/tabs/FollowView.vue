@@ -1,28 +1,6 @@
 <template>
      <div class="row">
-        <div class="col-lg-4">
-            <div class="content-comic-profile">
-                <div class="content-item-image">
-                    <img src="http://localhost:8000/storage/comics/168136840823.png" alt="">
-                </div>
-                <div class="content-item-text">
-                    <span class="name">Solo Leveling</span>
-                    <span class="icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                </div>
-            </div>
-        </div>   
-        <div class="col-lg-4">
-            <div class="content-comic-profile">
-                <div class="content-item-image">
-                    <img src="http://localhost:8000/storage/comics/168136840823.png" alt="">
-                </div>
-                <div class="content-item-text">
-                    <span class="name">Solo Leveling</span>
-                    <span class="icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                </div>
-            </div>
-        </div>   
-        <div class="col-lg-4">
+        <div class="col-lg-4" v-for="item in comic_follow" :key="item.id">
             <div class="content-comic-profile">
                 <div class="content-item-image">
                     <img src="http://localhost:8000/storage/comics/168136840823.png" alt="">
@@ -45,12 +23,12 @@ export default {
         }
     },
     computed: {
-        ...mapState('client', ['comic_favorite'])
+        ...mapState('client', ['comic_follow'])
     },
     methods: {
-        ...mapActions('client', ['getListFavorite']),
+        ...mapActions('client', ['getListFollow']),
         getList: function() {
-            this.getListFavorite();
+            this.getListFollow();
         } 
     },
     created() {

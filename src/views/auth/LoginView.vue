@@ -5,6 +5,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="login__form">
+                        <div class="alert alert-danger" role="alert" v-if="loginError">This is a danger alert—check it out!</div>
                         <h3>Login</h3>
                         <form @submit.prevent="handleSubmit()">
                             <div class="input__item">
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
     name: "RegisterView",
@@ -65,16 +66,23 @@ export default {
         };
     },
     computed: {
-        ...mapGetters('auth', ['isLoggingIn', 'user'])
+        ...mapState('auth', ['isLoggingIn', 'loginError']),
+        ...mapGetters('auth', ['user']),
     },
     methods: {
         ...mapActions('auth', ['login']),
         handleSubmit: function() {
             this.login(this.form)
-            .then(() => {
-                location.reload();
-            })
         },
     },
+    watch: {
+        loginError: {
+            handler(newV) {
+                if(!newV) {
+                    location.reload();
+                }
+            }
+        }
+    }
 };
 </script>

@@ -2,12 +2,16 @@ import authService from "@/services/api/auth.service";
 
 export default {
     async login({commit}, formData) {
-        commit('setLoggingIn', true);
         try {
             const response = await authService.login(formData);
-            commit('setUser', response.user);
-            localStorage.setItem('user', JSON.stringify(response.user));
-            localStorage.setItem('access_token', response.access_token);
+            if(!response.error) {
+                commit('setUser', response.user);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                localStorage.setItem('access_token', response.data.access_token);
+                commit('setLoggingError', false)
+            }else{
+                commit('setLoggingError', true)
+            }
         } catch (error) {
             commit('setLoggingError', error)
         }
