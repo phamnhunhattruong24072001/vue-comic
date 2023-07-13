@@ -53,9 +53,9 @@ export default {
             console.log(error);
         }
     },
-    getAllComic: async ({ commit }) => {
+    getAllComic: async ({ commit }, type) => {
         try {
-            const response = await comicService.getComic();
+            const response = await comicService.getComic(type);
             const comics = response.comics.data;
             comics.forEach((item) => {
                 item.chapter_latest.created_at = formatDate(item.chapter_latest.created_at);

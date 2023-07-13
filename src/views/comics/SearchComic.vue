@@ -33,6 +33,7 @@
                                               <option value="DESC">Mới cập nhật</option>
                                               <option value="ASC">Cũ nhất</option>
                                               <option value="VIEW">Top lượt xem</option>
+                                              <option value="HOT">Nổi bật</option>
                                               <!-- <option value="FAVORITES">Top yêu thích</option> -->
                                           </select>
                                       </div>
@@ -128,6 +129,7 @@
               BASE_URL: process.env.VUE_APP_BASE_URL,
               API_URL: process.env.VUE_APP_API_URL,
               API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
+              query: this.$route.query,
           };
       },
       components: {
@@ -138,14 +140,6 @@
       },
       methods: {
           ...mapActions('page', ['getAllComic', 'filterData']),
-          loadData: function() 
-          {
-              this.getAllComic();
-          },
-          filterDataView: function(data)
-          { 
-              this.filterData(data);
-          },
           handleFilterData: function(pageNum = 1){
               const checkedCountries = this.$refs.countryInputs.filter(input => input.checked).map(input => input.value);
               const checkedCategories = this.$refs.categoryInputs.filter(input => input.checked).map(input => input.value);
@@ -153,8 +147,13 @@
               
               let softField = 'latest_chapter_time';
               let softType = this.filter.soft ?? 'DESC';
+              let highlight = false;
               if (this.filter.soft == 'VIEW') {
                   softField = 'view';
+                  softType = 'DESC';
+              }
+              if (this.filter.soft == 'HOT') {
+                  highlight = true;
                   softType = 'DESC';
               }
               const data = {
@@ -162,18 +161,21 @@
                   genres: checkedGenres,
                   categories: checkedCategories,
                   countries: checkedCountries,
-                  softField: softField,
-                  softType: softType
+                  softField,
+                  softType,
+                  highlight
               };
-              this.filterDataView(data);
+              this.filterData(data);
           },
       },
-      created(){
-          this.loadData();
+      mounted(){
+          if(this.$route.query.type) {
+            this.getAllComic(this.$route.query.type);
+          }
       },
       watch: {
-        "$route.params.slug"(newValue) {
-            this.loadData(newValue);
+        "$route.params.slug"() {
+            this.getAllComic(this.$route.query.type);
         },
     },
   };

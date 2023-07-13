@@ -27,9 +27,11 @@ export default {
         const response = await axiosService.get(`/page/country-comic/${slug}`);
         return get(response, "data", []);
     },
-    async getComic()
+    async getComic(type)
     {
-        const response = await axiosService.get(`/page/all-comic`);
+        const response = await axiosService.post(`/page/all-comic`, {
+            type
+        });
         return get(response, "data", []);
     },
     async filterComicByGenre(formData)

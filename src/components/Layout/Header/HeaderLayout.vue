@@ -13,30 +13,9 @@
                 <div class="col-lg-6">
                     <div class="search-box">
                         <div class="search-box__content">
-                            <input type="text" class="form-control form-search" v-model="search" @keyup="handleSearch" placeholder="Tìm kiếm tại đây" />
+                            <input type="text" class="form-control form-search" v-model="search" @keyup="handleSearch()" placeholder="Tìm kiếm tại đây" />
                             <span class="icon-search"><i class="fa fa-search"></i></span>
-                            <div class="search-box__result" v-show="resultSearch">
-                                <ul>
-                                    <li v-for="item in resultSearch" :key="item.id">
-                                        <router-link :to="{name: 'detail-comic', params: { slug: item.slug} }" @click="search = ''; resultSearch = []">
-                                            <div class="img">
-                                                <img :src="item.thumbnail" alt="" />
-                                            </div>
-                                            <div class="content-text">
-                                                <b>{{ item.name }}</b>
-                                                <span>{{ item.chapter_latest.name }}</span>
-                                                <div class="product__item__text">
-                                                    <ul>
-                                                        <li v-for="genre in genres" :key="genre.id">
-                                                            {{ genre.name }}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </router-link>
-                                    </li>
-                                </ul>
-                            </div>
+                            <search-content v-if="resultSearch.length > 0" :result="resultSearch"/>
                         </div>
                     </div>
                 </div>
@@ -50,7 +29,7 @@
                                 <li><router-link :to="{name: 'profile'}">Tài khoản</router-link></li>
                                 <li><a href="">Yêu thích</a></li>
                                 <li><a href="">Lịch sử</a></li>
-                                <li><a @click="handleLogout">Đăng xuất</a></li>
+                                <li><a @click="handleLogout()">Đăng xuất</a></li>
                             </ul>
                         </div>
                         <router-link class="btn btn-outline-danger rounded-0" v-else :to="{name: 'login'}">Đăng nhập</router-link>
@@ -75,7 +54,7 @@
                                         <router-link :to="{ name: 'home' }">{{ PAGE_NAME.HOME }}</router-link>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'home' }">{{ PAGE_NAME.HOT }}</router-link>
+                                        <router-link :to="{ name: 'searchComic', query: { type: 'highlight'} }">{{ PAGE_NAME.HOT }}</router-link>
                                     </li>
                                     <li>
                                         <router-link :to="{ name: 'follow' }">{{ PAGE_NAME.FOLLOW }}</router-link>
@@ -127,8 +106,9 @@
 
 
 <script>
-import { mapActions, mapState } from "vuex";
-import { PAGE_NAME } from './const'
+import { mapActions, mapState, mapMutations } from "vuex";
+import { PAGE_NAME } from './const';
+import searchContent from './_component/searchContent.vue';
 
 function debounce(func, wait, immediate) {
     let timeout;
@@ -155,7 +135,11 @@ export default {
             API_URL_IMAGE: process.env.VUE_APP_API_URL_IMAGE,
             search: "",
             PAGE_NAME,
+            show: false,
         };
+    },
+    components: {
+        searchContent,
     },
     computed: {
         ...mapState("header", [
@@ -173,6 +157,7 @@ export default {
     methods: {
         ...mapActions("header", ["getData", "getDataSearch"]),
         ...mapActions("auth", ["logout"]),
+        ...mapMutations("header", ["setDataSearch"]),
         getDataView: function () {
             this.getData();
         },
@@ -184,6 +169,12 @@ export default {
         }, 500),
         handleLogout: function() {
             this.logout();
+        },
+        resetData() {
+            this.search = '';
+            this.setDataSearch({
+                resultSearch : [],
+            })
         }
     },
 };
