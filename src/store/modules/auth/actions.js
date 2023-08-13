@@ -1,7 +1,7 @@
 import authService from "@/services/api/auth.service";
-
+import { actionsName } from './types'
 export default {
-    async login({commit}, formData) {
+    [actionsName.LOGIN]: async ({commit}, formData) => {
         try {
             const response = await authService.login(formData);
             if(!response.error) {
@@ -16,11 +16,11 @@ export default {
             commit('setLoggingError', error)
         }
     },
-    async register({commit}, formData) {
+    [actionsName.REGISTER]: async ({commit}, formData) => {
         commit('setRegisterError', false)
         try {
             const response = await authService.register(formData);
-            if(response.status == 200) {
+            if(response.status === 200) {
                 console.log(response.status);
             }else{
                 console.log(response.status);
@@ -29,7 +29,7 @@ export default {
             console.log(error)
         }
     },
-    async logout() {
+    [actionsName.LOGOUT]: async () => {
         try {
             await authService.logout()
             localStorage.removeItem("user");

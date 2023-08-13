@@ -14,5 +14,4 @@ const store = createStore({
         comment
     }
 });
-
 export default store;

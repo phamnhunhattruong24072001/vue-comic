@@ -51,6 +51,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
+import { actionsName } from '@/store/modules/auth/types'
 
 export default {
     name: "RegisterView",
@@ -70,7 +71,7 @@ export default {
         ...mapGetters('auth', ['user']),
     },
     methods: {
-        ...mapActions('auth', ['login']),
+        ...mapActions('auth', [actionsName.LOGIN]),
         handleSubmit: function() {
             this.login(this.form)
         },
